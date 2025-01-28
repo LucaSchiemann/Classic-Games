@@ -1,0 +1,363 @@
+//Setting up main game
+
+var gameMode = 0;
+
+var XO = function(config){
+    this.x = config.x || 0;
+    this.y = config.y || 0;
+    this.width = config.width || 0;
+    this.height = config.width || 0;
+    this.onClick = config.onClick || function(){};
+};
+
+XO.prototype.isMouseInside = function(){
+    return mouseX > (this.x-50) &&
+           mouseX < (this.x +50) &&
+           mouseY > this.y-50 &&
+           mouseY < (this.y +50);
+};
+
+XO.prototype.handleMouseClick = function() {
+    if (this.isMouseInside()) {
+        this.onClick();
+    }
+};
+
+var X = function(x, y, width, height){
+    XO.call(this, x, y, width, height);
+};
+
+X.prototype = Object.create(XO.prototype);
+
+X.prototype.draw = function() {
+    line(this.x-this.width/2, this.y-this.height/2, this.x+this.width/2, this.y+this.height/2);
+    line(this.x+this.width/2, this.y-this.height/2, this.x-this.width/2, this.y+this.height/2);
+};
+
+var x1 = new X({
+    x: 147.5,
+    y: 147.5,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        x1.draw();
+    }
+});
+
+var x2 = new X({
+    x: 300,
+    y: 147.5,
+    width: 10,
+    height: 10,
+    onClick: function(){
+        x2.draw();
+    }
+});
+
+var x3 = new X({
+    x: 452.5,
+    y: 147.5,
+    width: 10,
+    height: 10,
+    onClick: function(){
+        x3.draw();
+    }
+});
+
+var x4 = new X({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+    onClick: function(){
+        x4.draw();
+    }
+});
+
+var x5 = new X({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+});
+
+var x6 = new X({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+});
+
+var x7 = new X({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+});
+
+var x8 = new X({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+});
+
+var x9 = new X({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+});
+
+var O = function(x, y, width, height){
+    XO.call(this, x, y, width, height);
+};
+
+O.prototype = Object.create(XO.prototype);
+
+O.prototype.draw = function() {
+    ellipse(this.x, this.y, this.width, this.height);
+};
+
+var o1 = new O({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+});
+
+var o2 = new O({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+});
+
+var o3 = new O({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+});
+
+var o4 = new O({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+});
+
+var o5 = new O({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+});
+
+var o6 = new O({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+});
+
+var o7 = new O({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+});
+
+var o8 = new O({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+});
+
+var o9 = new O({
+    x: 300,
+    y: 375,
+    width: 10,
+    height: 10,
+    onClick: function(){
+        
+    }
+});
+
+var drawBoard = function(){
+    strokeWeight(10);
+    line(75,220,525,220);
+    line(75,380,525,380);
+    line(220,75,220,525);
+    line(380,75,380,525);
+};
+
+
+
+//Creating menu UI
+
+var Button = function(config) {
+    this.x = config.x || 0;
+    this.y = config.y || 0;
+    this.width = config.width || 200;
+    this.height = config.height || 50;
+    this.label = config.label;
+    this.onClick = config.onClick || function() {};
+};
+
+Button.prototype.isMouseInside = function() {
+    return mouseX > (this.x-this.width/2) &&
+           mouseX < (this.x + this.width) &&
+           mouseY > this.y &&
+           mouseY < (this.y + this.height);
+};
+
+Button.prototype.handleMouseClick = function() {
+    if (this.isMouseInside()) {
+        this.onClick();
+    }
+};
+
+Button.prototype.draw = function() {
+    fill(64, 59, 64);
+    rect(this.x-(this.width/2), this.y, this.width, this.height, 3);
+    fill(0, 0, 0);
+    textSize(19);
+    textAlign(CENTER, CENTER);
+    text(this.label, this.x, this.y+this.height/2);
+};
+
+var btn1 = new Button({
+    x: 300,
+    y: 375,
+    label: "Local Game",
+    onClick: function() {
+        gameMode = 1;
+        background(130,36,36);
+        drawBoard();
+    }
+});
+
+var btn2 = new Button({
+    x:300, 
+    y:450, 
+    label: "Vs Computer",
+    onClick: function(){
+        gameMode = 2;
+        background(130,36,36);
+        drawBoard();
+    }
+});
+
+var btn3 = new Button({
+    x:300, 
+    y:525, 
+    label: "Story",
+    onClick: function(){
+        gameMode = 3;
+    }
+});
+
+mouseClicked = function(){
+if(gameMode === 0){
+btn1.handleMouseClick();
+btn2.handleMouseClick();
+btn3.handleMouseClick();
+}
+else if(gameMode === 1){
+x1.handleMouseClick();
+x2.handleMouseClick();
+x3.handleMouseClick();
+x4.handleMouseClick();
+x5.handleMouseClick();
+x6.handleMouseClick();
+x7.handleMouseClick();
+x8.handleMouseClick();
+x9.handleMouseClick();
+}
+};
+
+var drawBackX = function(a,b){
+    strokeWeight(10);
+    line(a, b, a+100, b+100);
+    line(a+100, b, a, b+100);
+};
+
+var drawBackO = function(c,d){
+    strokeWeight(10);
+    noFill();
+    ellipse(c,d,100,100);
+};
+
+var backX = function(a, b, xSpeed, ySpeed){
+    this.a = a;
+    this.b = b;
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
+};
+
+backX.prototype.make = function() {
+    strokeWeight(10);
+    line(this.a, this.b, this.a+100, this.b+100);
+    line(this.a+100, this.b, this.a, this.b+100);
+    
+    this.a = this.a + this.xSpeed;
+    if(this.a>500){this.xSpeed = -1;}
+    if(this.a<0){this.xSpeed = 1;}
+    this.b = this.b + this.ySpeed;
+    if(this.b>500){this.ySpeed = -1;}
+    if(this.b<0){this.ySpeed = 1;}
+};
+
+var backx = new backX(random(100,500),random(100,500),1,1);
+var backx2 = new backX(random(100,500),random(100,500),1,-1);
+
+var backO = function(a, b, xSpeed, ySpeed){
+    this.a = a;
+    this.b = b;
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
+};
+
+backO.prototype.make = function(){
+    strokeWeight(10);
+    noFill();
+    ellipse(this.a,this.b,100,100); 
+    
+    this.a = this.a - this.xSpeed;
+    if(this.a>550){this.xSpeed = 1;}
+    if(this.a<50){this.xSpeed = -1;}
+    this.b = this.b - this.ySpeed;
+    if(this.b>550){this.ySpeed = 1;}
+    if(this.b<50){this.ySpeed = -1;}
+};
+
+var backo = new backO(random(100,500),random(100,500),-1,1);
+var backo2 = new backO(random(100,500),random(100,500),1,-1);
+
+var drawMenu = function(){
+    draw = function() {
+        if(gameMode === 0){
+        background(130, 36, 36);
+        
+        backx.make();
+        backx2.make();
+        backo.make();
+        backo2.make();
+        
+        strokeWeight(3);
+        textFont(createFont("Arial Black"));
+        textSize(74);
+        fill(0);
+        textAlign(CENTER, CENTER);
+        text("TIC-TAC-TOE", 300, 138);
+        btn1.draw();
+        btn2.draw();
+        btn3.draw();
+        }
+    };
+    
+};
+
+drawMenu();
