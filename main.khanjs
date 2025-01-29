@@ -1,3 +1,4 @@
+
 //Setting up main game
 
 var gameMode = 0;
@@ -15,10 +16,10 @@ var XO = function(config){
 };
 
 XO.prototype.isMouseInside = function(){
-    return mouseX > (this.x-80) &&
-           mouseX < (this.x +80) &&
-           mouseY > this.y-80 &&
-           mouseY < (this.y +80);
+    return mouseX > (this.x-75) &&
+           mouseX < (this.x +75) &&
+           mouseY > this.y-75 &&
+           mouseY < (this.y +75);
 };
 
 XO.prototype.handleMouseClick = function() {
@@ -424,6 +425,8 @@ else if(gameMode === 1){
     x9.handleMouseClick();
     }
     btn4.handleMouseClick();
+    
+    checkWin();
 }
 else if(myTurn === false){
     if(pos[1] === "empty"){
@@ -446,6 +449,7 @@ else if(myTurn === false){
     o9.handleMouseClick();
     }
     btn4.handleMouseClick();
+    
 }
 }
 else if(gameMode === 2) {
