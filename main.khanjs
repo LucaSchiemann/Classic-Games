@@ -46,7 +46,7 @@ var x1 = new X({
     onClick: function(){
         x1.draw();
         myTurn=false;
-        pos[1] = "filled";
+        pos[1] = "filledX";
     }
 });
 
@@ -58,7 +58,7 @@ var x2 = new X({
     onClick: function(){
         x2.draw();
         myTurn=false;
-       pos[2] = "filled";
+       pos[2] = "filledX";
     }
 });
 
@@ -70,7 +70,7 @@ var x3 = new X({
     onClick: function(){
         x3.draw();
         myTurn=false;
-        pos[3] = "filled";
+        pos[3] = "filledX";
     }
 });
 
@@ -82,7 +82,7 @@ var x4 = new X({
     onClick: function(){
         x4.draw();
         myTurn=false;
-        pos[4] = "filled";
+        pos[4] = "filledX";
     }
 });
 
@@ -94,7 +94,7 @@ var x5 = new X({
     onClick: function(){
         x5.draw();
         myTurn=false;
-        pos[5] = "filled";
+        pos[5] = "filledX";
     }
 });
 
@@ -106,7 +106,7 @@ var x6 = new X({
     onClick: function(){
         x6.draw();
         myTurn=false;
-        pos[6] = "filled";
+        pos[6] = "filledX";
     }
 });
 
@@ -118,7 +118,7 @@ var x7 = new X({
     onClick: function(){
         x7.draw();
         myTurn=false;
-        pos[7] = "filled";
+        pos[7] = "filledX";
     }
 });
 
@@ -130,7 +130,7 @@ var x8 = new X({
     onClick: function(){
         x8.draw();
         myTurn=false;
-        pos[8] = "filled";
+        pos[8] = "filledX";
     }
 });
 
@@ -142,7 +142,7 @@ var x9 = new X({
     onClick: function(){
         x9.draw();
         myTurn=false;
-        pos[9] = "filled";
+        pos[9] = "filledX";
     }
 });
 
@@ -165,7 +165,7 @@ var o1 = new O({
     onClick: function(){
         o1.draw();
         myTurn=true;
-        pos[1] = "filled";
+        pos[1] = "filledX";
     }
 });
 
@@ -177,7 +177,7 @@ var o2 = new O({
     onClick: function(){
         o2.draw();
         myTurn=true;
-        pos[2] = "filled";
+        pos[2] = "filledX";
     }
 });
 
@@ -189,7 +189,7 @@ var o3 = new O({
     onClick: function(){
         o3.draw();
         myTurn=true;
-        pos[3] = "filled";
+        pos[3] = "filledX";
     }
 });
 
@@ -201,7 +201,7 @@ var o4 = new O({
     onClick: function(){
         o4.draw();
         myTurn=true;
-        pos[4] = "filled";
+        pos[4] = "filledX";
     }
 });
 
@@ -213,7 +213,7 @@ var o5 = new O({
     onClick: function(){
         o5.draw();
         myTurn=true;
-        pos[5] = "filled";
+        pos[5] = "filledX";
     }
 });
 
@@ -225,7 +225,7 @@ var o6 = new O({
     onClick: function(){
         o6.draw();
         myTurn=true;
-        pos[6] = "filled";
+        pos[6] = "filledX";
     }
 });
 
@@ -237,7 +237,7 @@ var o7 = new O({
     onClick: function(){
         o7.draw();
         myTurn=true;
-        pos[7] = "filled";
+        pos[7] = "filledX";
     }
 });
 
@@ -249,7 +249,7 @@ var o8 = new O({
     onClick: function(){
         o8.draw();
         myTurn=true;
-        pos[8] = "filled";
+        pos[8] = "filledX";
     }
 });
 
@@ -261,7 +261,7 @@ var o9 = new O({
     onClick: function(){
         o9.draw();
         myTurn=true;
-        pos[9] = "filled";
+        pos[9] = "filledX";
     }
 });
 
@@ -273,6 +273,46 @@ var drawBoard = function(){
     line(380,75,380,525);
 };
 
+var winScreen = function(player){
+    background(130, 36, 36);
+    textSize(50);
+    text(player+" takes the win!",256,67);
+};
+
+//player x wins
+var checkWin = function() {
+if(pos[1]==="filledX" && pos[2]==="filledX" && pos[3]==="filledX"){
+    winScreen("X");
+} 
+
+else if(pos[4]==="filledX" && pos[5]==="filledX" && pos[6]==="filledX"){
+    winScreen("X");
+}
+
+else if(pos[7]==="filledX" && pos[8]==="filledX" && pos[9]==="filledX"){
+    winScreen("X");
+}
+
+else if(pos[1]==="filledX" && pos[4]==="filledX" && pos[7]==="filledX"){
+    winScreen("X");
+}
+
+else if(pos[2]==="filledX" && pos[5]==="filledX" && pos[8]==="filledX"){
+    winScreen("X");
+}
+
+else if(pos[3]==="filledX" && pos[6]==="filledX" && pos[9]==="filledX"){
+    winScreen("X");
+}
+
+else if(pos[1]==="filledX" && pos[5]==="filledX" && pos[9]==="filledX"){
+    winScreen("X");
+}
+
+else if(pos[3]==="filledX" && pos[5]==="filledX" && pos[7]==="filledX"){
+    winScreen("X");
+}
+};
 
 //Creating menu UI
 
