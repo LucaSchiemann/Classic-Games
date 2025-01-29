@@ -1,6 +1,10 @@
 //Setting up main game
 
 var gameMode = 0;
+var myTurn = true;
+
+var pos = ["empty","empty","empty","empty","empty","empty","empty","empty","empty","empty"];
+   
 
 var XO = function(config){
     this.x = config.x || 0;
@@ -11,10 +15,10 @@ var XO = function(config){
 };
 
 XO.prototype.isMouseInside = function(){
-    return mouseX > (this.x-50) &&
-           mouseX < (this.x +50) &&
-           mouseY > this.y-50 &&
-           mouseY < (this.y +50);
+    return mouseX > (this.x-80) &&
+           mouseX < (this.x +80) &&
+           mouseY > this.y-80 &&
+           mouseY < (this.y +80);
 };
 
 XO.prototype.handleMouseClick = function() {
@@ -41,72 +45,105 @@ var x1 = new X({
     height: 100,
     onClick: function(){
         x1.draw();
+        myTurn=false;
+        pos[1] = "filled";
     }
 });
 
 var x2 = new X({
     x: 300,
     y: 147.5,
-    width: 10,
-    height: 10,
+    width: 100,
+    height: 100,
     onClick: function(){
         x2.draw();
+        myTurn=false;
+       pos[2] = "filled";
     }
 });
 
 var x3 = new X({
     x: 452.5,
     y: 147.5,
-    width: 10,
-    height: 10,
+    width: 100,
+    height: 100,
     onClick: function(){
         x3.draw();
+        myTurn=false;
+        pos[3] = "filled";
     }
 });
 
 var x4 = new X({
-    x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    x: 147.5,
+    y: 300,
+    width: 100,
+    height: 100,
     onClick: function(){
         x4.draw();
+        myTurn=false;
+        pos[4] = "filled";
     }
 });
 
 var x5 = new X({
     x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    y: 300,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        x5.draw();
+        myTurn=false;
+        pos[5] = "filled";
+    }
 });
 
 var x6 = new X({
-    x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    x: 452.5,
+    y: 300,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        x6.draw();
+        myTurn=false;
+        pos[6] = "filled";
+    }
 });
 
 var x7 = new X({
-    x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    x: 147.5,
+    y: 452.5,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        x7.draw();
+        myTurn=false;
+        pos[7] = "filled";
+    }
 });
 
 var x8 = new X({
     x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    y: 452.5,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        x8.draw();
+        myTurn=false;
+        pos[8] = "filled";
+    }
 });
 
 var x9 = new X({
-    x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    x: 452.5,
+    y: 452.5,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        x9.draw();
+        myTurn=false;
+        pos[9] = "filled";
+    }
 });
 
 var O = function(x, y, width, height){
@@ -116,72 +153,115 @@ var O = function(x, y, width, height){
 O.prototype = Object.create(XO.prototype);
 
 O.prototype.draw = function() {
+    noFill();
     ellipse(this.x, this.y, this.width, this.height);
 };
 
 var o1 = new O({
-    x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    x: 147.5,
+    y: 147.5,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        o1.draw();
+        myTurn=true;
+        pos[1] = "filled";
+    }
 });
 
 var o2 = new O({
     x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    y: 147.5,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        o2.draw();
+        myTurn=true;
+        pos[2] = "filled";
+    }
 });
 
 var o3 = new O({
-    x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    x: 452.5,
+    y: 147.5,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        o3.draw();
+        myTurn=true;
+        pos[3] = "filled";
+    }
 });
 
 var o4 = new O({
-    x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    x: 147.5,
+    y: 300,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        o4.draw();
+        myTurn=true;
+        pos[4] = "filled";
+    }
 });
 
 var o5 = new O({
     x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    y: 300,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        o5.draw();
+        myTurn=true;
+        pos[5] = "filled";
+    }
 });
 
 var o6 = new O({
-    x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    x: 452.5,
+    y: 300,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        o6.draw();
+        myTurn=true;
+        pos[6] = "filled";
+    }
 });
 
 var o7 = new O({
-    x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    x: 147.5,
+    y: 452.5,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        o7.draw();
+        myTurn=true;
+        pos[7] = "filled";
+    }
 });
 
 var o8 = new O({
     x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    y: 452.5,
+    width: 100,
+    height: 100,
+    onClick: function(){
+        o8.draw();
+        myTurn=true;
+        pos[8] = "filled";
+    }
 });
 
 var o9 = new O({
-    x: 300,
-    y: 375,
-    width: 10,
-    height: 10,
+    x: 452.5,
+    y: 452.5,
+    width: 100,
+    height: 100,
     onClick: function(){
-        
+        o9.draw();
+        myTurn=true;
+        pos[9] = "filled";
     }
 });
 
@@ -192,7 +272,6 @@ var drawBoard = function(){
     line(220,75,220,525);
     line(380,75,380,525);
 };
-
 
 
 //Creating menu UI
@@ -236,12 +315,21 @@ var btn1 = new Button({
         gameMode = 1;
         background(130,36,36);
         drawBoard();
+        pos[1] = "empty";
+        pos[2] = "empty";
+        pos[3] = "empty";
+        pos[4] = "empty";
+        pos[5] = "empty";
+        pos[6] = "empty";
+        pos[7] = "empty";
+        pos[8] = "empty";
+        pos[9] = "empty";
     }
 });
 
 var btn2 = new Button({
-    x:300, 
-    y:450, 
+    x:300,
+    y:450,
     label: "Vs Computer",
     onClick: function(){
         gameMode = 2;
@@ -251,11 +339,20 @@ var btn2 = new Button({
 });
 
 var btn3 = new Button({
-    x:300, 
-    y:525, 
+    x:300,
+    y:525,
     label: "Story",
     onClick: function(){
         gameMode = 3;
+    }
+});
+
+var btn4 = new Button({
+    x:300,
+    y:540,
+    label: "Return to Menu",
+    onClick: function(){
+        gameMode = 0;
     }
 });
 
@@ -266,15 +363,56 @@ btn2.handleMouseClick();
 btn3.handleMouseClick();
 }
 else if(gameMode === 1){
-x1.handleMouseClick();
-x2.handleMouseClick();
-x3.handleMouseClick();
-x4.handleMouseClick();
-x5.handleMouseClick();
-x6.handleMouseClick();
-x7.handleMouseClick();
-x8.handleMouseClick();
-x9.handleMouseClick();
+    if(myTurn === true){
+    if(pos[1] === "empty"){
+    x1.handleMouseClick();
+    } if(pos[2] === "empty"){
+    x2.handleMouseClick();
+    } if(pos[3] === "empty"){
+    x3.handleMouseClick();
+    } if(pos[4] === "empty"){
+    x4.handleMouseClick();
+    } if(pos[5] === "empty"){
+    x5.handleMouseClick();
+    } if(pos[6] === "empty"){
+    x6.handleMouseClick();
+    } if(pos[7] === "empty"){
+    x7.handleMouseClick();
+    } if(pos[8] === "empty"){
+    x8.handleMouseClick();
+    } if(pos[9] === "empty"){
+    x9.handleMouseClick();
+    }
+    btn4.handleMouseClick();
+}
+else if(myTurn === false){
+    if(pos[1] === "empty"){
+    o1.handleMouseClick();
+    } if(pos[2] === "empty"){
+    o2.handleMouseClick();
+    } if(pos[3] === "empty"){
+    o3.handleMouseClick();
+    } if(pos[4] === "empty"){
+    o4.handleMouseClick();
+    } if(pos[5] === "empty"){
+    o5.handleMouseClick();
+    } if(pos[6] === "empty"){
+    o6.handleMouseClick();
+    } if(pos[7] === "empty"){
+    o7.handleMouseClick();
+    } if(pos[8] === "empty"){
+    o8.handleMouseClick();
+    } if(pos[9] === "empty"){
+    o9.handleMouseClick();
+    }
+    btn4.handleMouseClick();
+}
+}
+else if(gameMode === 2) {
+   
+}
+else if(gameMode === 3) {
+   
 }
 };
 
@@ -301,7 +439,7 @@ backX.prototype.make = function() {
     strokeWeight(10);
     line(this.a, this.b, this.a+100, this.b+100);
     line(this.a+100, this.b, this.a, this.b+100);
-    
+   
     this.a = this.a + this.xSpeed;
     if(this.a>500){this.xSpeed = -1;}
     if(this.a<0){this.xSpeed = 1;}
@@ -323,8 +461,8 @@ var backO = function(a, b, xSpeed, ySpeed){
 backO.prototype.make = function(){
     strokeWeight(10);
     noFill();
-    ellipse(this.a,this.b,100,100); 
-    
+    ellipse(this.a,this.b,100,100);
+   
     this.a = this.a - this.xSpeed;
     if(this.a>550){this.xSpeed = 1;}
     if(this.a<50){this.xSpeed = -1;}
@@ -340,12 +478,12 @@ var drawMenu = function(){
     draw = function() {
         if(gameMode === 0){
         background(130, 36, 36);
-        
+       
         backx.make();
         backx2.make();
         backo.make();
         backo2.make();
-        
+       
         strokeWeight(3);
         textFont(createFont("Arial Black"));
         textSize(74);
@@ -356,8 +494,13 @@ var drawMenu = function(){
         btn2.draw();
         btn3.draw();
         }
+        else if(gameMode === 1){
+        strokeWeight(3);
+        btn4.draw();
+        strokeWeight(10);
+        }
     };
-    
+   
 };
 
 drawMenu();
