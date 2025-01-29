@@ -485,6 +485,7 @@ else if(myTurn === false){
     }
     btn4.handleMouseClick();
     
+    checkWin();
 }
 }
 else if(gameMode === 2) {
