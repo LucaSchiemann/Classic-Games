@@ -1,12 +1,13 @@
-
-
 //Setting up main game
 
+var newX;
+var newY;
 var gameMode = 0;
 var myTurn = true;
+var canPlace = true;
+var Draw = true;
 
 var pos = ["empty","empty","empty","empty","empty","empty","empty","empty","empty","empty"];
-   
 
 var XO = function(config){
     this.x = config.x || 0;
@@ -269,84 +270,194 @@ var o9 = new O({
 
 var drawBoard = function(){
     strokeWeight(10);
+    //top
     line(75,220,525,220);
+    //bottom
     line(75,380,525,380);
+    //left
     line(220,75,220,525);
+    //right
     line(380,75,380,525);
 };
 
-var winScreen = function(player){
-    background(130, 36, 36);
-    textSize(50);
-    text(player+" takes the win!",256,67);
+var winScreen = function(pos1X, pos1Y, pos2X, pos2Y, altDraw){
+    strokeWeight(15);
+    if(newX<pos2X){
+    newX+=25;
+    }
+    if(newY<pos2Y){
+    newY+=25;
+    }
+    else if(newY>pos2Y && altDraw === true){
+    newY-=25;
+    }
+    
+    line(pos1X,pos1Y,newX,newY);
+    canPlace = false;
 };
 
 //player x wins
 var checkWin = function() {
 if(pos[1]==="filledX" && pos[2]==="filledX" && pos[3]==="filledX"){
-    winScreen("X");
+    if(Draw===true){
+    newX = 75;
+    newY = 150;
+    Draw = false;
+    }
+    
+    winScreen(75, 150, 525, 150);
 } 
 
 else if(pos[4]==="filledX" && pos[5]==="filledX" && pos[6]==="filledX"){
-    winScreen("X");
+    if(Draw===true){
+    newX = 75;
+    newY = 300;
+    Draw = false;
+    }
+    
+    winScreen(75, 300, 525, 300);
 }
 
 else if(pos[7]==="filledX" && pos[8]==="filledX" && pos[9]==="filledX"){
-    winScreen("X");
+    if(Draw===true){
+    newX = 75;
+    newY = 450;
+    Draw = false;
+    }
+    
+    winScreen(75, 450, 525, 450);
 }
 
 else if(pos[1]==="filledX" && pos[4]==="filledX" && pos[7]==="filledX"){
-    winScreen("X");
+    if(Draw===true){
+    newX = 150;
+    newY = 75;
+    Draw = false;
+    }
+    
+    winScreen(150, 75, 150, 525);
 }
 
 else if(pos[2]==="filledX" && pos[5]==="filledX" && pos[8]==="filledX"){
-    winScreen("X");
+    if(Draw===true){
+    newX = 300;
+    newY = 75;
+    Draw = false;
+    }
+    
+    winScreen(300, 75, 300, 525);
 }
 
 else if(pos[3]==="filledX" && pos[6]==="filledX" && pos[9]==="filledX"){
-    winScreen("X");
+    if(Draw===true){
+    newX = 450;
+    newY = 75;
+    Draw = false;
+    }
+    
+    winScreen(450, 75, 450, 525);
 }
 
 else if(pos[1]==="filledX" && pos[5]==="filledX" && pos[9]==="filledX"){
-    winScreen("X");
+    if(Draw===true){
+    newX = 75;
+    newY = 75;
+    Draw = false;
+    }
+    
+    winScreen(75, 75, 525, 525);
 }
 
 else if(pos[3]==="filledX" && pos[5]==="filledX" && pos[7]==="filledX"){
-    winScreen("X");
+    if(Draw===true){
+    newX = 75;
+    newY = 525;
+    Draw = false;
+    }
+    
+    winScreen(75, 525, 525, 75, true);
 }
 
 //for o winning
 
 if(pos[1]==="filledO" && pos[2]==="filledO" && pos[3]==="filledO"){
-    winScreen("O");
+    if(Draw===true){
+    newX = 75;
+    newY = 150;
+    Draw = false;
+    }
+    
+    winScreen(75, 150, 525, 150);
 } 
 
 else if(pos[4]==="filledO" && pos[5]==="filledO" && pos[6]==="filledO"){
-    winScreen("O");
+    if(Draw===true){
+    newX = 75;
+    newY = 300;
+    Draw = false;
+    }
+    
+    winScreen(75, 300, 525, 300);
 }
 
 else if(pos[7]==="filledO" && pos[8]==="filledO" && pos[9]==="filledO"){
-    winScreen("O");
+    if(Draw===true){
+    newX = 75;
+    newY = 450;
+    Draw = false;
+    }
+    
+    winScreen(75, 450, 525, 450);
 }
 
 else if(pos[1]==="filledO" && pos[4]==="filledO" && pos[7]==="filledO"){
-    winScreen("O");
+    if(Draw===true){
+    newX = 150;
+    newY = 75;
+    Draw = false;
+    }
+    
+    winScreen(150, 75, 150, 525);
 }
 
 else if(pos[2]==="filledO" && pos[5]==="filledO" && pos[8]==="filledO"){
-    winScreen("O");
+    if(Draw===true){
+    newX = 300;
+    newY = 75;
+    Draw = false;
+    }
+    
+    winScreen(300, 75, 300, 525);
 }
 
 else if(pos[3]==="filledO" && pos[6]==="filledO" && pos[9]==="filledO"){
-    winScreen("O");
+    if(Draw===true){
+    newX = 450;
+    newY = 75;
+    Draw = false;
+    }
+    
+    winScreen(450, 75, 450, 525);
 }
 
 else if(pos[1]==="filledO" && pos[5]==="filledO" && pos[9]==="filledO"){
-    winScreen("O");
+    if(Draw===true){
+    newX = 75;
+    newY = 75;
+    Draw = false;
+    }
+    
+    winScreen(75, 75, 525, 525);
 }
 
 else if(pos[3]==="filledO" && pos[5]==="filledO" && pos[7]==="filledO"){
-    winScreen("O");
+    if(Draw===true){
+    newX = 75;
+    newY = 525;
+    Draw = false;
+    }
+    
+    winScreen(75, 525, 525, 75, true);
 }
 };
 
@@ -391,6 +502,7 @@ var btn1 = new Button({
         gameMode = 1;
         background(130,36,36);
         drawBoard();
+        myTurn = true;
         pos[1] = "empty";
         pos[2] = "empty";
         pos[3] = "empty";
@@ -429,6 +541,11 @@ var btn4 = new Button({
     label: "Return to Menu",
     onClick: function(){
         gameMode = 0;
+        Draw = true;
+        newX = 0;
+        newY = 0;
+        pos = ["empty","empty","empty","empty","empty","empty","empty","empty","empty","empty"];
+        canPlace = true;
     }
 });
 
@@ -439,7 +556,7 @@ btn2.handleMouseClick();
 btn3.handleMouseClick();
 }
 else if(gameMode === 1){
-    if(myTurn === true){
+    if(myTurn === true && canPlace === true){
     if(pos[1] === "empty"){
     x1.handleMouseClick();
     } if(pos[2] === "empty"){
@@ -459,11 +576,8 @@ else if(gameMode === 1){
     } if(pos[9] === "empty"){
     x9.handleMouseClick();
     }
-    btn4.handleMouseClick();
-    
-    checkWin();
 }
-else if(myTurn === false){
+else if(myTurn === false && canPlace === true){
     if(pos[1] === "empty"){
     o1.handleMouseClick();
     } if(pos[2] === "empty"){
@@ -483,10 +597,8 @@ else if(myTurn === false){
     } if(pos[9] === "empty"){
     o9.handleMouseClick();
     }
-    btn4.handleMouseClick();
-    
-    checkWin();
 }
+btn4.handleMouseClick();
 }
 else if(gameMode === 2) {
    
@@ -555,32 +667,33 @@ var backo = new backO(random(100,500),random(100,500),-1,1);
 var backo2 = new backO(random(100,500),random(100,500),1,-1);
 
 var drawMenu = function(){
-    draw = function() {
-        if(gameMode === 0){
-        background(130, 36, 36);
-       
-        backx.make();
-        backx2.make();
-        backo.make();
-        backo2.make();
-       
-        strokeWeight(3);
-        textFont(createFont("Arial Black"));
-        textSize(74);
-        fill(0);
-        textAlign(CENTER, CENTER);
-        text("TIC-TAC-TOE", 300, 138);
-        btn1.draw();
-        btn2.draw();
-        btn3.draw();
-        }
-        else if(gameMode === 1){
-        strokeWeight(3);
-        btn4.draw();
-        strokeWeight(10);
-        }
-    };
+    checkWin();
+    if(gameMode === 0){
+    background(130, 36, 36);
+    
+    backx.make();
+    backx2.make();
+    backo.make();
+    backo2.make();
+
+    strokeWeight(3);
+    textFont(createFont("Arial Black"));
+    textSize(74);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text("TIC-TAC-TOE", 300, 138);
+    btn1.draw();
+    btn2.draw();
+    btn3.draw();
+    }
+    else if(gameMode === 1){
+    strokeWeight(3);
+    btn4.draw();
+    strokeWeight(10);
+    }
    
 };
 
+draw = function() {
 drawMenu();
+};
