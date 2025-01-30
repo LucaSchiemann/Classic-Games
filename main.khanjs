@@ -569,6 +569,7 @@ else if(myTurn === false){
 }
 }
 else if(gameMode === 2) {
+    btn4.handleMouseClick();
     if(myTurn===true){
         if(pos[1] === "empty"){
     x1.handleMouseClick();
@@ -589,7 +590,6 @@ else if(gameMode === 2) {
     } if(pos[9] === "empty"){
     x9.handleMouseClick();
     }
-    btn4.handleMouseClick();
     checkWin();
     if (gameOver === false){
     AI("easy");
