@@ -624,9 +624,19 @@ var btn4 = new Button({
         Draw = true;
         newX = 0;
         newY = 0;
-        pos = ["empty","empty","empty","empty","empty","empty","empty","empty","empty","empty"];
+        pos[1] = "empty";
+        pos[2] = "empty";
+        pos[3] = "empty";
+        pos[4] = "empty";
+        pos[5] = "empty";
+        pos[6] = "empty";
+        pos[7] = "empty";
+        pos[8] = "empty";
+        pos[9] = "empty";
         canPlace = true;
         difOp=false;
+        myTurn = true;
+        gameOver=false;
     }
 });
 
@@ -649,6 +659,9 @@ var btn5 = new Button({
         pos[8] = "empty";
         pos[9] = "empty";
         AIdif="easy";
+        canPlace = true;
+        myTurn = true;
+        gameOver=false;
     }
 });
 
@@ -670,6 +683,9 @@ var btn6 = new Button({
         pos[8] = "empty";
         pos[9] = "empty";
         AIdif="hard";
+        canPlace=true;
+        myTurn = true;
+        gameOver=false;
     }
 });
 
@@ -733,11 +749,11 @@ else if(myTurn === false && canPlace === true){
     o9.handleMouseClick();
     }
 }
-btn4.handleMouseClick();
+    btn4.handleMouseClick();
 }
 else if(gameMode === 2) {
     btn4.handleMouseClick();
-    if(myTurn===true){
+    if(myTurn===true && canPlace===true){
         if(pos[1] === "empty"){
     x1.handleMouseClick();
     } if(pos[2] === "empty"){
@@ -758,11 +774,9 @@ else if(gameMode === 2) {
     x9.handleMouseClick();
     }
     checkWin();
-    if (gameOver === false && AIdif===("easy") && myTurn==="false"){
+    if (gameOver === false && AIdif==="easy" && myTurn===false){
         AI("easy");
-    }
-    if(gameOver === false && AIdif===("easy")){
-        AI("easy");
+        println("yes");
     }
     }
    
