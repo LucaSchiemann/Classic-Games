@@ -551,6 +551,8 @@ Button.prototype.handleMouseClick = function() {
     }
 };
 
+var AIDif = false;
+
 Button.prototype.draw = function() {
     fill(64, 59, 64);
     rect(this.x-(this.width/2), this.y, this.width, this.height, 3);
@@ -586,18 +588,7 @@ var btn2 = new Button({
     y:450,
     label: "Vs Computer",
     onClick: function(){
-        gameMode = 2;
-        background(130,36,36);
-        drawBoard();
-        pos[1] = "empty";
-        pos[2] = "empty";
-        pos[3] = "empty";
-        pos[4] = "empty";
-        pos[5] = "empty";
-        pos[6] = "empty";
-        pos[7] = "empty";
-        pos[8] = "empty";
-        pos[9] = "empty";
+        AIDif = true;
     }
 });
 
@@ -624,17 +615,64 @@ var btn4 = new Button({
     }
 });
 
+var btn5 = new Button({
+    x:185,
+    y:450,
+    label:"Easy",
+    onClick: function(){
+        gameMode = 2;
+        background(130,36,36);
+        drawBoard();
+        pos[1] = "empty";
+        pos[2] = "empty";
+        pos[3] = "empty";
+        pos[4] = "empty";
+        pos[5] = "empty";
+        pos[6] = "empty";
+        pos[7] = "empty";
+        pos[8] = "empty";
+        pos[9] = "empty";
+    }
+});
+
+var btn6 = new Button({
+    x:415,
+    y:450,
+    label:"Hard",
+    onClick: function(){
+        gameMode = 2;
+        background(130,36,36);
+        drawBoard();
+        pos[1] = "empty";
+        pos[2] = "empty";
+        pos[3] = "empty";
+        pos[4] = "empty";
+        pos[5] = "empty";
+        pos[6] = "empty";
+        pos[7] = "empty";
+        pos[8] = "empty";
+        pos[9] = "empty";
+    }
+});
+
 
 
 
 
 mouseClicked = function(){
 if(gameMode === 0){
+    if(AIDif === false) {
     btn1.handleMouseClick();
     btn2.handleMouseClick();
     btn3.handleMouseClick();
+    }
+    else if(AIDif === true) {
+    btn5.handleMouseClick();
+    btn6.handleMouseClick();
+    }
 }
 else if(gameMode === 1){
+    checkWin();
     if(myTurn === true && canPlace === true){
     if(pos[1] === "empty"){
     x1.handleMouseClick();
@@ -776,35 +814,42 @@ var backo = new backO(random(100,500),random(100,500),-1,1);
 var backo2 = new backO(random(100,500),random(100,500),1,-1);
 
 var drawMenu = function(){
-    checkWin();
-    if(gameMode === 0){
-    background(130, 36, 36);
-    
-    backx.make();
-    backx2.make();
-    backo.make();
-    backo2.make();
-
-    strokeWeight(3);
-    textFont(createFont("Arial Black"));
-    textSize(74);
-    fill(0);
-    textAlign(CENTER, CENTER);
-    text("TIC-TAC-TOE", 300, 138);
-    btn1.draw();
-    btn2.draw();
-    btn3.draw();
-    }
-    else if(gameMode === 1){
-    strokeWeight(3);
-    btn4.draw();
-    strokeWeight(10);
-    }
-    else if(gameMode ===2){
+        checkWin();
+        if(gameMode === 0){
+        background(130, 36, 36);
+       
+        backx.make();
+        backx2.make();
+        backo.make();
+        backo2.make();
+       
+        strokeWeight(3);
+        textFont(createFont("Arial Black"));
+        textSize(74);
+        fill(0);
+        textAlign(CENTER, CENTER);
+        text("TIC-TAC-TOE", 300, 138);
+        btn1.draw();
+        btn3.draw();
+        if(AIDif === false){
+            btn2.draw();
+        }
+        else if(AIDif === true){
+            btn5.draw();
+            btn6.draw();
+        }
+        }
+        else if(gameMode === 1){
             strokeWeight(3);
             btn4.draw();
             strokeWeight(10);
-    }
+        }
+        else if(gameMode ===2){
+            strokeWeight(3);
+            btn4.draw();
+            strokeWeight(10);
+        }
+   
 };
 
 draw = function() {
