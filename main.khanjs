@@ -1,3 +1,4 @@
+
 //Setting up main game
 
 var newX;
@@ -470,60 +471,71 @@ var AI = function(difficulty){
         var move = round(random(0.5,9.49999));
         if(move===1 && pos[1]==="empty"){
             o1.draw();
+            pos[1]="filledO";
         }
         else if(move===1 && pos[1]!=="empty"){
             move = round(random(0.5,9.49999));
         }
         if(move===2 && pos[2]==="empty"){
             o2.draw();
+            pos[2]="filledO";
         }
         else if(move===2 && pos[2]!=="empty"){
             move = round(random(0.5,9.49999));
         }
         if(move===3 && pos[2]==="empty"){
             o3.draw();
+            pos[3]="filledO";
         }
         else if(move===3 && pos[3]!=="empty"){
             move = round(random(0.5,9.49999));
         }
         if(move===4 && pos[4]==="empty"){
             o4.draw();
+            pos[4]="filledO";
         }
         else if(move===4 && pos[4]!=="empty"){
             move = round(random(0.5,9.49999));
         }
         if(move===5 && pos[5]==="empty"){
             o5.draw();
+            pos[5]="filledO";
         }
         else if(move===5 && pos[5]!=="empty"){
             move = round(random(0.5,9.49999));
         }
         if(move===6 && pos[6]==="empty"){
             o6.draw();
+            pos[6]="filledO";
         }
         else if(move===6 && pos[6]!=="empty"){
             move = round(random(0.5,9.49999));
         }
         if(move===7 && pos[7]==="empty"){
             o7.draw();
+            pos[7]="filledO";
         }
         else if(move===7 && pos[7]!=="empty"){
             move = round(random(0.5,9.49999));
         }
         if(move===8 && pos[8]==="empty"){
             o8.draw();
+            pos[8]="filledO";
         }
         else if(move===8 && pos[8]!=="empty"){
             move = round(random(0.5,9.49999));
         }
         if(move===9 && pos[9]==="empty"){
             o9.draw();
+            pos[9]="filledO";
         }   
         else if(move===9 && pos[9]!=="empty"){
             move = round(random(0.5,9.49999));
         }
         myTurn=true;
-        
+    }
+    else if(difficulty === "hard"){
+        //if(){}
     }
 };
 
@@ -551,7 +563,9 @@ Button.prototype.handleMouseClick = function() {
     }
 };
 
-var AIDif = false;
+var difOp = false;
+
+var AIdif;
 
 Button.prototype.draw = function() {
     fill(64, 59, 64);
@@ -588,7 +602,7 @@ var btn2 = new Button({
     y:450,
     label: "Vs Computer",
     onClick: function(){
-        AIDif = true;
+        difOp = true;
     }
 });
 
@@ -612,6 +626,7 @@ var btn4 = new Button({
         newY = 0;
         pos = ["empty","empty","empty","empty","empty","empty","empty","empty","empty","empty"];
         canPlace = true;
+        difOp=false;
     }
 });
 
@@ -621,6 +636,7 @@ var btn5 = new Button({
     label:"Easy",
     onClick: function(){
         gameMode = 2;
+        AIdif="easy";
         background(130,36,36);
         drawBoard();
         pos[1] = "empty";
@@ -632,6 +648,7 @@ var btn5 = new Button({
         pos[7] = "empty";
         pos[8] = "empty";
         pos[9] = "empty";
+        AIdif="easy";
     }
 });
 
@@ -652,6 +669,7 @@ var btn6 = new Button({
         pos[7] = "empty";
         pos[8] = "empty";
         pos[9] = "empty";
+        AIdif="hard";
     }
 });
 
@@ -661,12 +679,12 @@ var btn6 = new Button({
 
 mouseClicked = function(){
 if(gameMode === 0){
-    if(AIDif === false) {
+    if(difOp === false) {
     btn1.handleMouseClick();
     btn2.handleMouseClick();
     btn3.handleMouseClick();
     }
-    else if(AIDif === true) {
+    else if(difOp === true) {
     btn5.handleMouseClick();
     btn6.handleMouseClick();
     }
@@ -740,8 +758,11 @@ else if(gameMode === 2) {
     x9.handleMouseClick();
     }
     checkWin();
-    if (gameOver === false){
-    AI("easy");
+    if (gameOver === false && AIdif===("easy") && myTurn==="false"){
+        AI("easy");
+    }
+    if(gameOver === false && AIdif===("easy")){
+        AI("easy");
     }
     }
    
@@ -831,10 +852,10 @@ var drawMenu = function(){
         text("TIC-TAC-TOE", 300, 138);
         btn1.draw();
         btn3.draw();
-        if(AIDif === false){
+        if(difOp === false){
             btn2.draw();
         }
-        else if(AIDif === true){
+        else if(difOp === true){
             btn5.draw();
             btn6.draw();
         }
