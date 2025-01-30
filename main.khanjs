@@ -60,7 +60,7 @@ var x2 = new X({
     onClick: function(){
         x2.draw();
         myTurn=false;
-       pos[2] = "filledX";
+        pos[2] = "filledX";
     }
 });
 
