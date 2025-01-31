@@ -1,3 +1,4 @@
+
 //Setting up main game
 
 var newX;
@@ -7,7 +8,7 @@ var myTurn = true;
 var canPlace = true;
 var Draw = true;
 
-var pos = ["empty","empty","empty","empty","empty","empty","empty","empty","empty","empty"];
+var pos = ["filler","empty","empty","empty","empty","empty","empty","empty","empty","empty"];
 
 var XO = function(config){
     this.x = config.x || 0;
@@ -534,7 +535,7 @@ var AI = function(difficulty){
         myTurn=true;
     }
     else if(difficulty === "hard"){
-        //if(){}
+        if(pos===[]){}
     }
 };
 
@@ -775,7 +776,9 @@ else if(gameMode === 2) {
     checkWin();
     if (gameOver === false && AIdif==="easy" && myTurn===false){
         AI("easy");
-        println("yes");
+    }
+    if (gameOver === false && AIdif==="hard" && myTurn===false){
+        AI("hard");
     }
     }
    
