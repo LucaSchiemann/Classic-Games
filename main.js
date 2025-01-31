@@ -1,4 +1,3 @@
-
 //Setting up main game
 
 var newX;
@@ -469,9 +468,13 @@ else if(pos[3]==="filledO" && pos[5]==="filledO" && pos[7]==="filledO"){
 var AI = function(difficulty){
     if(difficulty==="easy"){
         var move = round(random(0.5,9.49999));
+        var hasMoved = 0;
+        
+        while(hasMoved === 0){
         if(move===1 && pos[1]==="empty"){
             o1.draw();
             pos[1]="filledO";
+            hasMoved = 1;
         }
         else if(move===1 && pos[1]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -479,6 +482,7 @@ var AI = function(difficulty){
         if(move===2 && pos[2]==="empty"){
             o2.draw();
             pos[2]="filledO";
+            hasMoved = 1;
         }
         else if(move===2 && pos[2]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -486,6 +490,7 @@ var AI = function(difficulty){
         if(move===3 && pos[2]==="empty"){
             o3.draw();
             pos[3]="filledO";
+            hasMoved = 1;
         }
         else if(move===3 && pos[3]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -493,6 +498,7 @@ var AI = function(difficulty){
         if(move===4 && pos[4]==="empty"){
             o4.draw();
             pos[4]="filledO";
+            hasMoved = 1;
         }
         else if(move===4 && pos[4]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -500,6 +506,7 @@ var AI = function(difficulty){
         if(move===5 && pos[5]==="empty"){
             o5.draw();
             pos[5]="filledO";
+            hasMoved = 1;
         }
         else if(move===5 && pos[5]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -507,6 +514,7 @@ var AI = function(difficulty){
         if(move===6 && pos[6]==="empty"){
             o6.draw();
             pos[6]="filledO";
+            hasMoved = 1;
         }
         else if(move===6 && pos[6]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -514,6 +522,7 @@ var AI = function(difficulty){
         if(move===7 && pos[7]==="empty"){
             o7.draw();
             pos[7]="filledO";
+            hasMoved = 1;
         }
         else if(move===7 && pos[7]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -521,6 +530,7 @@ var AI = function(difficulty){
         if(move===8 && pos[8]==="empty"){
             o8.draw();
             pos[8]="filledO";
+            hasMoved = 1;
         }
         else if(move===8 && pos[8]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -528,10 +538,12 @@ var AI = function(difficulty){
         if(move===9 && pos[9]==="empty"){
             o9.draw();
             pos[9]="filledO";
+            hasMoved = 1;
         }   
         else if(move===9 && pos[9]!=="empty"){
             move = round(random(0.5,9.49999));
         }
+    }
         myTurn=true;
     }
     else if(difficulty === "hard"){
