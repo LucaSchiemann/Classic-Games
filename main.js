@@ -487,7 +487,7 @@ var AI = function(difficulty){
         else if(move===2 && pos[2]!=="empty"){
             move = round(random(0.5,9.49999));
         }
-        if(move===3 && pos[2]==="empty"){
+        if(move===3 && pos[3]==="empty"){
             o3.draw();
             pos[3]="filledO";
             hasMoved = 1;
