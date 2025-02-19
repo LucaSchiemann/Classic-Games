@@ -752,7 +752,7 @@ var btn1 = new Button({
     x: -105,
     y: 375,
     label: "Local Game",
-    btnXSpeed: -3,
+    btnXSpeed: -9,
     onClick: function() {
         gameMode = 1;
         background(130,36,36);
@@ -774,7 +774,7 @@ var btn2 = new Button({
     x:705,
     y:450,
     label: "Vs Computer",
-    btnXSpeed: 3,
+    btnXSpeed: 9,
     onClick: function(){
         difOp = true;
     }
@@ -784,7 +784,7 @@ var btn3 = new Button({
     x:300,
     y:660,
     label: "Story",
-    btnYSpeed: 1,
+    btnYSpeed: 3,
     onClick: function(){
         gameMode = 3;
     }
