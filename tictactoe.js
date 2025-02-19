@@ -293,7 +293,7 @@ var winScreen = function(pos1X, pos1Y, pos2X, pos2Y, altDraw){
     else if(newY>pos2Y && altDraw === true){
     newY-=25;
     }
-    
+   
     line(pos1X,pos1Y,newX,newY);
     canPlace = false;
     gameOver = true;
@@ -306,9 +306,9 @@ if(pos[1]==="filledX" && pos[2]==="filledX" && pos[3]==="filledX"){
     newY = 150;
     Draw = false;
     }
-    
+   
     winScreen(75, 150, 525, 150);
-} 
+}
 
 else if(pos[4]==="filledX" && pos[5]==="filledX" && pos[6]==="filledX"){
     if(Draw===true){
@@ -316,7 +316,7 @@ else if(pos[4]==="filledX" && pos[5]==="filledX" && pos[6]==="filledX"){
     newY = 300;
     Draw = false;
     }
-    
+   
     winScreen(75, 300, 525, 300);
 }
 
@@ -326,7 +326,7 @@ else if(pos[7]==="filledX" && pos[8]==="filledX" && pos[9]==="filledX"){
     newY = 450;
     Draw = false;
     }
-    
+   
     winScreen(75, 450, 525, 450);
 }
 
@@ -336,7 +336,7 @@ else if(pos[1]==="filledX" && pos[4]==="filledX" && pos[7]==="filledX"){
     newY = 75;
     Draw = false;
     }
-    
+   
     winScreen(150, 75, 150, 525);
 }
 
@@ -346,7 +346,7 @@ else if(pos[2]==="filledX" && pos[5]==="filledX" && pos[8]==="filledX"){
     newY = 75;
     Draw = false;
     }
-    
+   
     winScreen(300, 75, 300, 525);
 }
 
@@ -356,7 +356,7 @@ else if(pos[3]==="filledX" && pos[6]==="filledX" && pos[9]==="filledX"){
     newY = 75;
     Draw = false;
     }
-    
+   
     winScreen(450, 75, 450, 525);
 }
 
@@ -366,7 +366,7 @@ else if(pos[1]==="filledX" && pos[5]==="filledX" && pos[9]==="filledX"){
     newY = 75;
     Draw = false;
     }
-    
+   
     winScreen(75, 75, 525, 525);
 }
 
@@ -376,7 +376,7 @@ else if(pos[3]==="filledX" && pos[5]==="filledX" && pos[7]==="filledX"){
     newY = 525;
     Draw = false;
     }
-    
+   
     winScreen(75, 525, 525, 75, true);
 }
 
@@ -388,9 +388,9 @@ if(pos[1]==="filledO" && pos[2]==="filledO" && pos[3]==="filledO"){
     newY = 150;
     Draw = false;
     }
-    
+   
     winScreen(75, 150, 525, 150);
-} 
+}
 
 else if(pos[4]==="filledO" && pos[5]==="filledO" && pos[6]==="filledO"){
     if(Draw===true){
@@ -398,7 +398,7 @@ else if(pos[4]==="filledO" && pos[5]==="filledO" && pos[6]==="filledO"){
     newY = 300;
     Draw = false;
     }
-    
+   
     winScreen(75, 300, 525, 300);
 }
 
@@ -408,7 +408,7 @@ else if(pos[7]==="filledO" && pos[8]==="filledO" && pos[9]==="filledO"){
     newY = 450;
     Draw = false;
     }
-    
+   
     winScreen(75, 450, 525, 450);
 }
 
@@ -418,7 +418,7 @@ else if(pos[1]==="filledO" && pos[4]==="filledO" && pos[7]==="filledO"){
     newY = 75;
     Draw = false;
     }
-    
+   
     winScreen(150, 75, 150, 525);
 }
 
@@ -428,7 +428,7 @@ else if(pos[2]==="filledO" && pos[5]==="filledO" && pos[8]==="filledO"){
     newY = 75;
     Draw = false;
     }
-    
+   
     winScreen(300, 75, 300, 525);
 }
 
@@ -438,7 +438,7 @@ else if(pos[3]==="filledO" && pos[6]==="filledO" && pos[9]==="filledO"){
     newY = 75;
     Draw = false;
     }
-    
+   
     winScreen(450, 75, 450, 525);
 }
 
@@ -448,7 +448,7 @@ else if(pos[1]==="filledO" && pos[5]==="filledO" && pos[9]==="filledO"){
     newY = 75;
     Draw = false;
     }
-    
+   
     winScreen(75, 75, 525, 525);
 }
 
@@ -458,7 +458,7 @@ else if(pos[3]==="filledO" && pos[5]==="filledO" && pos[7]==="filledO"){
     newY = 525;
     Draw = false;
     }
-    
+   
     winScreen(75, 525, 525, 75, true);
 }
 };
@@ -469,7 +469,7 @@ var AI = function(difficulty){
     if(difficulty==="easy"){
         var move = round(random(0.5,9.49999));
         var hasMoved = 0;
-        
+       
         while(hasMoved === 0){
         if(move===1 && pos[1]==="empty"){
             o1.draw();
@@ -539,7 +539,7 @@ var AI = function(difficulty){
             o9.draw();
             pos[9]="filledO";
             hasMoved = 1;
-        }   
+        }  
         else if(move===9 && pos[9]!=="empty"){
             move = round(random(0.5,9.49999));
         }
@@ -547,7 +547,7 @@ var AI = function(difficulty){
         myTurn=true;
     }
     else if(difficulty === "hard"){
-        
+       
         if(pos[1] === "filledO"&&pos[2]==="filledO"&&pos[3]==="empty"){
             o3.draw();
             pos[3]="filledO";
@@ -619,7 +619,7 @@ var AI = function(difficulty){
         else {
             var hasMoved = 0;
             var move = round(random(0.5,9.49999));
-            
+           
             while(hasMoved === 0){
         if(move===1 && pos[1]==="empty"){
             o1.draw();
@@ -689,7 +689,7 @@ var AI = function(difficulty){
             o9.draw();
             pos[9]="filledO";
             hasMoved = 1;
-        }   
+        }  
         else if(move===9 && pos[9]!=="empty"){
             move = round(random(0.5,9.49999));
         }
@@ -708,6 +708,8 @@ var Button = function(config) {
     this.height = config.height || 50;
     this.label = config.label;
     this.onClick = config.onClick || function() {};
+    this.btnXSpeed = config.btnXSpeed || 0;
+    this.btnYSpeed = config.btnYSpeed || 0;
 };
 
 Button.prototype.isMouseInside = function() {
@@ -734,12 +736,23 @@ Button.prototype.draw = function() {
     textSize(19);
     textAlign(CENTER, CENTER);
     text(this.label, this.x, this.y+this.height/2);
+    this.x = this.x - this.btnXSpeed;
+    this.y = this.y - this.btnYSpeed;
+   
+    if(this.x === 300) {
+        this.btnXSpeed = 0;
+    }
+    if(this.y === 525) {
+        this.btnYSpeed = 0;
+    }
 };
 
+
 var btn1 = new Button({
-    x: 300,
+    x: -105,
     y: 375,
     label: "Local Game",
+    btnXSpeed: -3,
     onClick: function() {
         gameMode = 1;
         background(130,36,36);
@@ -758,9 +771,10 @@ var btn1 = new Button({
 });
 
 var btn2 = new Button({
-    x:300,
+    x:705,
     y:450,
     label: "Vs Computer",
+    btnXSpeed: 3,
     onClick: function(){
         difOp = true;
     }
@@ -768,8 +782,9 @@ var btn2 = new Button({
 
 var btn3 = new Button({
     x:300,
-    y:525,
+    y:660,
     label: "Story",
+    btnYSpeed: 1,
     onClick: function(){
         gameMode = 3;
     }
