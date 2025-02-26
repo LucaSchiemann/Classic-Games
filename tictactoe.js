@@ -6,6 +6,8 @@ var gameMode = 0;
 var myTurn = true;
 var canPlace = true;
 var Draw = true;
+var difOp = false;
+var modeOp = false;
 
 var pos = ["filler","empty","empty","empty","empty","empty","empty","empty","empty","empty"];
 
@@ -725,8 +727,6 @@ Button.prototype.handleMouseClick = function() {
     }
 };
 
-var difOp = false;
-
 var AIdif;
 
 Button.prototype.draw = function() {
@@ -750,29 +750,17 @@ Button.prototype.draw = function() {
 
 var btn1 = new Button({
     x: -105,
-    y: 375,
+    y: 450,
     label: "Local Game",
     btnXSpeed: -9,
     onClick: function() {
-        gameMode = 1;
-        background(130,36,36);
-        drawBoard();
-        myTurn = true;
-        pos[1] = "empty";
-        pos[2] = "empty";
-        pos[3] = "empty";
-        pos[4] = "empty";
-        pos[5] = "empty";
-        pos[6] = "empty";
-        pos[7] = "empty";
-        pos[8] = "empty";
-        pos[9] = "empty";
+        modeOp = true;
     }
 });
 
 var btn2 = new Button({
     x:705,
-    y:450,
+    y:525,
     label: "Vs Computer",
     btnXSpeed: 9,
     onClick: function(){
@@ -780,6 +768,7 @@ var btn2 = new Button({
     }
 });
 
+/*
 var btn3 = new Button({
     x:300,
     y:660,
@@ -789,6 +778,7 @@ var btn3 = new Button({
         gameMode = 3;
     }
 });
+*/
 
 var btn4 = new Button({
     x:300,
@@ -817,7 +807,7 @@ var btn4 = new Button({
 
 var btn5 = new Button({
     x:185,
-    y:450,
+    y:525,
     label:"Easy",
     onClick: function(){
         gameMode = 2;
@@ -842,7 +832,7 @@ var btn5 = new Button({
 
 var btn6 = new Button({
     x:415,
-    y:450,
+    y:525,
     label:"Hard",
     onClick: function(){
         gameMode = 2;
@@ -864,20 +854,68 @@ var btn6 = new Button({
     }
 });
 
+var btn7 = new Button({
+    x:185,
+    y:450,
+    label:"Normal",
+    onClick: function(){
+        gameMode = 1;
+        background(130,36,36);
+        drawBoard();
+        pos[1] = "empty";
+        pos[2] = "empty";
+        pos[3] = "empty";
+        pos[4] = "empty";
+        pos[5] = "empty";
+        pos[6] = "empty";
+        pos[7] = "empty";
+        pos[8] = "empty";
+        pos[9] = "empty";
+        canPlace=true;
+        myTurn = true;
+        gameOver=false;
+    }
+});
 
+var btn8 = new Button({
+    x:415,
+    y:450,
+    label:"Ultimate",
+    onClick: function(){
+        gameMode = 3;
+        background(130,36,36);
+        drawBoard();
+        pos[1] = "empty";
+        pos[2] = "empty";
+        pos[3] = "empty";
+        pos[4] = "empty";
+        pos[5] = "empty";
+        pos[6] = "empty";
+        pos[7] = "empty";
+        pos[8] = "empty";
+        pos[9] = "empty";
+        canPlace=true;
+        myTurn = true;
+        gameOver=false;
+    }
+});
 
 
 
 mouseClicked = function(){
 if(gameMode === 0){
-    if(difOp === false) {
-    btn1.handleMouseClick();
-    btn2.handleMouseClick();
-    btn3.handleMouseClick();
+    if(difOp === false && modeOp === false) {
+        btn1.handleMouseClick();
+        btn2.handleMouseClick();
+        
     }
     else if(difOp === true) {
-    btn5.handleMouseClick();
-    btn6.handleMouseClick();
+        btn5.handleMouseClick();
+        btn6.handleMouseClick();
+    }
+    else if(modeOp === true) {
+        btn7.handleMouseClick();
+        btn8.handleMouseClick();
     }
 }
 else if(gameMode === 1){
@@ -1041,14 +1079,20 @@ var drawMenu = function(){
         fill(0);
         textAlign(CENTER, CENTER);
         text("TIC-TAC-TOE", 300, 138);
-        btn1.draw();
-        btn3.draw();
-        if(difOp === false){
+        //btn3.draw();
+        if(difOp === false && modeOp === false){
+            btn1.draw();
             btn2.draw();
         }
         else if(difOp === true){
             btn5.draw();
             btn6.draw();
+            btn1.draw();
+        }
+        else if(modeOp === true){
+            btn7.draw();
+            btn8.draw();
+            btn2.draw();
         }
         }
         else if(gameMode === 1){
