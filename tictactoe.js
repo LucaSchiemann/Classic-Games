@@ -33,6 +33,7 @@ XO.prototype.handleMouseClick = function() {
     }
 };
 
+//parent class for all x's on gameboard
 var X = function(x, y, width, height){
     XO.call(this, x, y, width, height);
 };
