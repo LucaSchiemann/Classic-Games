@@ -1,4 +1,4 @@
-//Setting up main game
+  //Setting up main game
 
 var newX;
 var newY;
@@ -12,6 +12,30 @@ var AIdif;
 
 var pos = ["filler","empty","empty","empty","empty","empty","empty","empty","empty","empty"];
 
+//holds all of the x objects in ultimate mode
+var ultimateXs = ["filler", "_"];
+
+//holds all of the y objects in ultimate mode
+var ultimateOs = ["filler", "_"];
+
+//holds weather a certain spot is filled in ultimate mode
+var ultimatePos = ["filler", "empty"];
+
+//holds location data for all posible x's and y's
+var ultimateCords = [["filler"]];
+
+//adds location dada to ultimateCords
+for(var w = 0; w < 3; w++) {
+for(var x = 0; x < 3; x++) {
+for(var y = 0; y < 3; y++) {
+for(var z = 0; z < 3; z++) {
+ultimateCords.push([(58+z*39)+52+150*x,(109+y*39)+150*w]);
+ultimatePos.push("empty");
+}
+}
+}
+}
+
 var XO = function(config){
     this.x = config.x || 0;
     this.y = config.y || 0;
@@ -20,16 +44,35 @@ var XO = function(config){
     this.onClick = config.onClick || function(){};
 };
 
-XO.prototype.isMouseInside = function(){
+XO.prototype.isMouseInside = function(mode){
+    if(mode === "normal"){
     return mouseX > (this.x-75) &&
            mouseX < (this.x +75) &&
            mouseY > this.y-75 &&
            mouseY < (this.y +75);
+    }
+    else if(mode === "ultimate"){
+        return mouseX > (this.x-20) &&
+           mouseX < (this.x +20) &&
+           mouseY > this.y-20 &&
+           mouseY < (this.y +20);
+    }
 };
 
 XO.prototype.handleMouseClick = function() {
-    if (this.isMouseInside()) {
+    if (this.isMouseInside("normal")) {
         this.onClick();
+    }
+};
+
+XO.prototype.ultimateHMC = function(i, XO) {
+    if (this.isMouseInside("ultimate") && ultimatePos[i] === "empty" && XO === "x") {
+        this.draw();
+        ultimatePos[i] = "filledX";
+    }
+    else if(this.isMouseInside("ultimate") && ultimatePos[i] === "empty" && XO === "o") {
+        this.draw();
+        ultimatePos[i] = "filledO";
     }
 };
 
@@ -43,6 +86,8 @@ X.prototype = Object.create(XO.prototype);
 X.prototype.draw = function() {
     line(this.x-this.width/2, this.y-this.height/2, this.x+this.width/2, this.y+this.height/2);
     line(this.x+this.width/2, this.y-this.height/2, this.x-this.width/2, this.y+this.height/2);
+    
+    myTurn = !myTurn;
 };
 
 var x1 = new X({
@@ -164,6 +209,7 @@ O.prototype = Object.create(XO.prototype);
 O.prototype.draw = function() {
     noFill();
     ellipse(this.x, this.y, this.width, this.height);
+    myTurn = !myTurn;
 };
 
 var o1 = new O({
@@ -276,6 +322,24 @@ var o9 = new O({
 
 var os = ["filler", o1, o2, o3, o4, o5, o6, o7, o8, o9];
 
+//creates all the x instances
+for(var i = 1; i<=ultimateCords.length-1; i++) {
+    ultimateXs[i] = new X({
+    x: ultimateCords[i][0],
+    y: ultimateCords[i][1],
+    width: 20,
+    height: 20,
+});
+
+    ultimateOs[i] = new O({
+    x: ultimateCords[i][0],
+    y: ultimateCords[i][1],
+    width: 20,
+    height: 20,
+    });
+}
+
+//draws the main gameboard
 var drawBoard = function(){
     strokeWeight(10);
     //top
@@ -288,6 +352,7 @@ var drawBoard = function(){
     line(380,75,380,525);
 };
 
+//draws the ultimate gameboard
 var drawUltimateBoard = function(){
     strokeWeight(10);
     line(75,220,525,220);
@@ -302,30 +367,19 @@ var drawUltimateBoard = function(){
     
     strokeWeight(5);
     
-    for(var i = 0; i < 3; i++) {
-        line(dec1+i*150,dec2,dec4+i*150,dec2);
-        line(dec1+i*150,dec3,dec4+i*150,dec3);
-        line(dec2+i*150,dec1,dec2+i*150,dec4);
-        line(dec3+i*150,dec1,dec3+i*150,dec4);
-    }
-    
-    for(var i = 0; i < 3; i++) {
-        line(dec1+i*150,dec2+150,dec4+i*150,dec2+150);
-        line(dec1+i*150,dec3+150,dec4+i*150,dec3+150);
-        line(dec2+i*150,dec1+150,dec2+i*150,dec4+150);
-        line(dec3+i*150,dec1+150,dec3+i*150,dec4+150);
-    }
-    
-    for(var i = 0; i < 3; i++) {
-        line(dec1+i*150,dec2+300,dec4+i*150,dec2+300);
-        line(dec1+i*150,dec3+300,dec4+i*150,dec3+300);
-        line(dec2+i*150,dec1+300,dec2+i*150,dec4+300);
-        line(dec3+i*150,dec1+300,dec3+i*150,dec4+300);
+    for (var n = 0; n < 3; n++) {
+        for (var i = 0; i < 3; i++) {
+            line(dec1+i*150,dec2+n*150,dec4+i*150,dec2+n*150);
+            line(dec1+i*150,dec3+n*150,dec4+i*150,dec3+n*150);
+            line(dec2+i*150,dec1+n*150,dec2+i*150,dec4+n*150);
+            line(dec3+i*150,dec1+n*150,dec3+i*150,dec4+n*150);
+        }
     }
 };
 
 var gameOver = false;
 
+//draws a line when a player wins
 var winScreen = function(pos1X, pos1Y, pos2X, pos2Y, altDraw){
     strokeWeight(15);
     if(newX<pos2X){
@@ -512,7 +566,7 @@ else if(pos[3]==="filledO" && pos[5]==="filledO" && pos[7]==="filledO"){
 var AI = function(difficulty){
     if(difficulty==="easy"){
         var move = round(random(0.5,9.49999));
-        var hasMoved = "false";
+        var hasMoved = false;
         while(hasMoved === "false") {
             if(pos[move] === "empty") {
                 os[move].draw();
@@ -526,67 +580,67 @@ var AI = function(difficulty){
     }
     else if(difficulty === "hard"){
        
-        if(pos[1] === "filledO"&&pos[2]==="filledO"&&pos[3]==="empty"){
+        if(pos[1] === "filledO"&&pos[2]==="filledO"&&pos[3]==="empty" || pos[1] === "filledX"&&pos[2]==="filledX"&&pos[3]==="empty"){
             o3.draw();
             pos[3]="filledO";
         }
-        else if(pos[2] === "filledO"&&pos[3]==="filledO"&&pos[1]==="empty"){
+        else if(pos[2] === "filledO"&&pos[3]==="filledO"&&pos[1]==="empty" || pos[2] === "filledX"&&pos[3]==="filledX"&&pos[1]==="empty"){
             o1.draw();
             pos[1]="filledO";
         }
-        else if(pos[4] === "filledO"&&pos[5]==="filledO"&&pos[6]==="empty"){
+        else if(pos[4] === "filledO"&&pos[5]==="filledO"&&pos[6]==="empty" || pos[4] === "filledX"&&pos[5]==="filledX"&&pos[6]==="empty"){
             o6.draw();
             pos[6]="filledO";
         }
-        else if(pos[5] === "filledO"&&pos[6]==="filledO"&&pos[4]==="empty"){
+        else if(pos[5] === "filledO"&&pos[6]==="filledO"&&pos[4]==="empty" || pos[5] === "filledX"&&pos[6]==="filledX"&&pos[4]==="empty"){
             o4.draw();
             pos[4]="filledO";
         }
-        else if(pos[7] === "filledO"&&pos[8]==="filledO"&&pos[9]==="empty"){
+        else if(pos[7] === "filledO"&&pos[8]==="filledO"&&pos[9]==="empty" || pos[7] === "filledX"&&pos[8]==="filledX"&&pos[9]==="empty"){
             o9.draw();
             pos[9]="filledO";
         }
-        else if(pos[8] === "filledO"&&pos[9]==="filledO"&&pos[7]==="empty"){
+        else if(pos[8] === "filledO"&&pos[9]==="filledO"&&pos[7]==="empty" || pos[8] === "filledX"&&pos[9]==="filledX"&&pos[7]==="empty"){
             o7.draw();
             pos[7]="filledO";
         }
-        else if(pos[1] === "filledO"&&pos[4]==="filledO"&&pos[7]==="empty"){
+        else if(pos[1] === "filledO"&&pos[4]==="filledO"&&pos[7]==="empty" || pos[1] === "filledX"&&pos[4]==="filledX"&&pos[7]==="empty"){
             o7.draw();
             pos[7]="filledO";
         }
-        else if(pos[4] === "filledO"&&pos[7]==="filledO"&&pos[1]==="empty"){
+        else if(pos[4] === "filledO"&&pos[7]==="filledO"&&pos[1]==="empty" || pos[4] === "filledX"&&pos[7]==="filledX"&&pos[1]==="empty"){
             o1.draw();
             pos[1]="filledO";
         }
-        else if(pos[2] === "filledO"&&pos[5]==="filledO"&&pos[8]==="empty"){
+        else if(pos[2] === "filledO"&&pos[5]==="filledO"&&pos[8]==="empty" || pos[2] === "filledX"&&pos[5]==="filledX"&&pos[8]==="empty"){
             o8.draw();
             pos[8]="filledO";
         }
-        else if(pos[5] === "filledO"&&pos[8]==="filledO"&&pos[2]==="empty"){
+        else if(pos[5] === "filledO"&&pos[8]==="filledO"&&pos[2]==="empty" || pos[5] === "filledX"&&pos[8]==="filledX"&&pos[2]==="empty"){
             o2.draw();
             pos[2]="filledO";
         }
-        else if(pos[3] === "filledO"&&pos[6]==="filledO"&&pos[9]==="empty"){
+        else if(pos[3] === "filledO"&&pos[6]==="filledO"&&pos[9]==="empty" || pos[3] === "filledX"&&pos[6]==="filledX"&&pos[9]==="empty"){
             o6.draw();
             pos[6]="filledO";
         }
-        else if(pos[6] === "filledO"&&pos[9]==="filledO"&&pos[3]==="empty"){
+        else if(pos[6] === "filledO"&&pos[9]==="filledO"&&pos[3]==="empty" || pos[6] === "filledX"&&pos[9]==="filledX"&&pos[3]==="empty"){
             o3.draw();
             pos[3]="filledO";
         }
-        else if(pos[1] === "filledO"&&pos[5]==="filledO"&&pos[9]==="empty"){
+        else if(pos[1] === "filledO"&&pos[5]==="filledO"&&pos[9]==="empty" || pos[1] === "filledX"&&pos[5]==="filledX"&&pos[9]==="empty"){
             o9.draw();
             pos[9]="filledO";
         }
-        else if(pos[5] === "filledO"&&pos[9]==="filledO"&&pos[1]==="empty"){
+        else if(pos[5] === "filledO"&&pos[9]==="filledO"&&pos[1]==="empty" || pos[5] === "filledX"&&pos[9]==="filledX"&&pos[1]==="empty"){
             o1.draw();
             pos[1]="filledO";
         }
-        else if(pos[3] === "filledO"&&pos[5]==="filledO"&&pos[7]==="empty"){
+        else if(pos[3] === "filledO"&&pos[5]==="filledO"&&pos[7]==="empty" || pos[3] === "filledX"&&pos[5]==="filledX"&&pos[7]==="empty"){
             o7.draw();
             pos[7]="filledO";
         }
-        else if(pos[5] === "filledO"&&pos[7]==="filledO"&&pos[3]==="empty"){
+        else if(pos[5] === "filledO"&&pos[7]==="filledO"&&pos[3]==="empty" || pos[5] === "filledX"&&pos[7]==="filledX"&&pos[3]==="empty"){
             o3.draw();
             pos[3]="filledO";
         }
@@ -595,14 +649,14 @@ var AI = function(difficulty){
             pos[5]="filledO";
         }
         else {
-            var hasMoved = 0;
+            var hasMoved = false;
             var move = round(random(0.5,9.49999));
            
-            while(hasMoved === 0){
+        while(hasMoved === false){
         if(move===1 && pos[1]==="empty"){
             o1.draw();
             pos[1]="filledO";
-            hasMoved = 1;
+            hasMoved = true;
         }
         else if(move===1 && pos[1]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -610,7 +664,7 @@ var AI = function(difficulty){
         if(move===2 && pos[2]==="empty"){
             o2.draw();
             pos[2]="filledO";
-            hasMoved = 1;
+            hasMoved = true;
         }
         else if(move===2 && pos[2]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -618,7 +672,7 @@ var AI = function(difficulty){
         if(move===3 && pos[3]==="empty"){
             o3.draw();
             pos[3]="filledO";
-            hasMoved = 1;
+            hasMoved = true;
         }
         else if(move===3 && pos[3]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -626,7 +680,7 @@ var AI = function(difficulty){
         if(move===4 && pos[4]==="empty"){
             o4.draw();
             pos[4]="filledO";
-            hasMoved = 1;
+            hasMoved = true;
         }
         else if(move===4 && pos[4]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -634,7 +688,7 @@ var AI = function(difficulty){
         if(move===5 && pos[5]==="empty"){
             o5.draw();
             pos[5]="filledO";
-            hasMoved = 1;
+            hasMoved = true;
         }
         else if(move===5 && pos[5]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -642,7 +696,7 @@ var AI = function(difficulty){
         if(move===6 && pos[6]==="empty"){
             o6.draw();
             pos[6]="filledO";
-            hasMoved = 1;
+            hasMoved = true;
         }
         else if(move===6 && pos[6]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -650,7 +704,7 @@ var AI = function(difficulty){
         if(move===7 && pos[7]==="empty"){
             o7.draw();
             pos[7]="filledO";
-            hasMoved = 1;
+            hasMoved = true;
         }
         else if(move===7 && pos[7]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -658,7 +712,7 @@ var AI = function(difficulty){
         if(move===8 && pos[8]==="empty"){
             o8.draw();
             pos[8]="filledO";
-            hasMoved = 1;
+            hasMoved = true;
         }
         else if(move===8 && pos[8]!=="empty"){
             move = round(random(0.5,9.49999));
@@ -666,12 +720,13 @@ var AI = function(difficulty){
         if(move===9 && pos[9]==="empty"){
             o9.draw();
             pos[9]="filledO";
-            hasMoved = 1;
+            hasMoved = true;
         }  
         else if(move===9 && pos[9]!=="empty"){
             move = round(random(0.5,9.49999));
         }
     }
+    myTurn = true;
         }
         myTurn=true;
     }
@@ -707,8 +762,9 @@ Button.prototype.draw = function() {
     fill(64, 59, 64);
     rect(this.x-(this.width/2), this.y, this.width, this.height, 3);
     fill(0, 0, 0);
-    textSize(19);
+    textSize(22);
     textAlign(CENTER, CENTER);
+    textFont(createFont("Trebuchet MS Bold"));
     text(this.label, this.x, this.y+this.height/2);
     this.x = this.x - this.btnXSpeed;
     this.y = this.y - this.btnYSpeed;
@@ -829,7 +885,7 @@ var btn8 = new Button({
         }
         canPlace=true;
         myTurn = true;
-        gameOver=false;
+        gameOver = false;
     }
 });
 
@@ -887,6 +943,18 @@ else if(gameMode === 2) {
 }
 else if(gameMode === 3) {
    btn4.handleMouseClick();
+   strokeWeight(5);
+   //println(myTurn);
+   if(myTurn === true) {
+   for(var i = 1; i<=81; i++) {
+        ultimateXs[i].ultimateHMC(i, "x");
+    }
+   }
+   else if(myTurn === false) {
+    for(var i = 1; i<=81; i++) {
+        ultimateOs[i].ultimateHMC(i, "o");
+    }
+   }
 }
 };
 
@@ -960,7 +1028,7 @@ var drawMenu = function(){
         backo2.make();
        
         strokeWeight(3);
-        textFont(createFont("Arial Black"));
+        textFont(createFont("Trebuchet MS Bold"));
         textSize(74);
         fill(0);
         textAlign(CENTER, CENTER);
