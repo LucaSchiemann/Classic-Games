@@ -162,10 +162,19 @@ mouseClicked = function(){
                                 var row2 = 0;
                                 while (row2 < 8){
                                     if (column2 < 8){
-                                        if(darkCheckersX[d] === board[row2][column2][3] && darkCheckersY[d] === board[row2][column2][4]){
-                                            board[row2][column2][0] = "_";
+                                        if(darkCheckersX[selected] === board[row2][column2][3] && darkCheckersY[selected] === board[row2][column2][4]){
+                                            println(darkCheckersX[selected]);
+                                            darkCheckersX[selected] = board[row][column][1];
+                                            darkCheckersY[selected] = board[row][column][2];
                                             selected = null;
                                             selectedColor = null;
+                                            board[row2][column2][0] = "_";
+                                            println(emptySpacesX[i]);
+                                            emptySpacesX[i] = board[row2][column2][1];
+                                            emptySpacesY[i] = board[row2][column2][2];
+                                            println(emptySpacesX[i]);
+                                            println(darkCheckersX[selected]);
+                                            println(darkCheckersX);
                                         }
                                         column2 += 1;
                                     }
