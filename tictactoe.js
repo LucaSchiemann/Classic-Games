@@ -8,6 +8,8 @@ var canPlace = true;
 var Draw = true;
 var difOp = false;
 var modeOp = false;
+var nextMove = 0;
+var hasMoved;
 var AIdif;
 
 var pos = ["filler","empty","empty","empty","empty","empty","empty","empty","empty","empty"];
@@ -19,7 +21,7 @@ var ultimateXs = ["filler", "_"];
 var ultimateOs = ["filler", "_"];
 
 //holds weather a certain spot is filled in ultimate mode
-var ultimatePos = ["filler", "empty"];
+var ultimatePos = [["filler"]];
 
 //holds location data for all posible x's and y's
 var ultimateCords = [["filler"]];
@@ -27,10 +29,10 @@ var ultimateCords = [["filler"]];
 //adds location dada to ultimateCords
 for(var w = 0; w < 3; w++) {
 for(var x = 0; x < 3; x++) {
+ultimatePos.push(["filler", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"]);
 for(var y = 0; y < 3; y++) {
 for(var z = 0; z < 3; z++) {
 ultimateCords.push([(58+z*39)+52+150*x,(109+y*39)+150*w]);
-ultimatePos.push("empty");
 }
 }
 }
@@ -65,12 +67,21 @@ XO.prototype.handleMouseClick = function() {
     }
 };
 
-XO.prototype.ultimateHMC = function(i, XO) {
-    if (this.isMouseInside("ultimate") && ultimatePos[i] === "empty" && XO === "x") {
+XO.prototype.ultimateHMC = function(i, n, XO) {
+    var empty;
+    
+    println(n);
+    
+    if(ultimatePos[i][n] === "empty") {
+        empty = true;
+    } 
+    
+    if (this.isMouseInside("ultimate") && empty === true && XO === "x") {
         this.draw();
         ultimatePos[i] = "filledX";
     }
-    else if(this.isMouseInside("ultimate") && ultimatePos[i] === "empty" && XO === "o") {
+    
+    else if(this.isMouseInside("ultimate") && ultimatePos[i][n] === "empty" && XO === "o") {
         this.draw();
         ultimatePos[i] = "filledO";
     }
@@ -559,6 +570,10 @@ else if(pos[3]==="filledO" && pos[5]==="filledO" && pos[7]==="filledO"){
    
     winScreen(75, 525, 525, 75, true);
 }
+else{
+    hasMoved = true;
+    
+}
 };
 
 //creating AI
@@ -566,7 +581,7 @@ else if(pos[3]==="filledO" && pos[5]==="filledO" && pos[7]==="filledO"){
 var AI = function(difficulty){
     if(difficulty==="easy"){
         var move = round(random(0.5,9.49999));
-        var hasMoved = false;
+        hasMoved = false;
         while(hasMoved === "false") {
             if(pos[move] === "empty") {
                 os[move].draw();
@@ -648,11 +663,11 @@ var AI = function(difficulty){
             o5.draw();
             pos[5]="filledO";
         }
-        else {
-            var hasMoved = false;
-            var move = round(random(0.5,9.49999));
+        else if(pos.indexOf("empty") !== -1) {
+            hasMoved = false;
            
         while(hasMoved === false){
+        var move = round(random(0.5,9.49999));
         if(move===1 && pos[1]==="empty"){
             o1.draw();
             pos[1]="filledO";
@@ -661,7 +676,7 @@ var AI = function(difficulty){
         else if(move===1 && pos[1]!=="empty"){
             move = round(random(0.5,9.49999));
         }
-        if(move===2 && pos[2]==="empty"){
+        else if(move===2 && pos[2]==="empty"){
             o2.draw();
             pos[2]="filledO";
             hasMoved = true;
@@ -669,7 +684,7 @@ var AI = function(difficulty){
         else if(move===2 && pos[2]!=="empty"){
             move = round(random(0.5,9.49999));
         }
-        if(move===3 && pos[3]==="empty"){
+        else if(move===3 && pos[3]==="empty"){
             o3.draw();
             pos[3]="filledO";
             hasMoved = true;
@@ -677,7 +692,7 @@ var AI = function(difficulty){
         else if(move===3 && pos[3]!=="empty"){
             move = round(random(0.5,9.49999));
         }
-        if(move===4 && pos[4]==="empty"){
+        else if(move===4 && pos[4]==="empty"){
             o4.draw();
             pos[4]="filledO";
             hasMoved = true;
@@ -685,7 +700,7 @@ var AI = function(difficulty){
         else if(move===4 && pos[4]!=="empty"){
             move = round(random(0.5,9.49999));
         }
-        if(move===5 && pos[5]==="empty"){
+        else if(move===5 && pos[5]==="empty"){
             o5.draw();
             pos[5]="filledO";
             hasMoved = true;
@@ -693,7 +708,7 @@ var AI = function(difficulty){
         else if(move===5 && pos[5]!=="empty"){
             move = round(random(0.5,9.49999));
         }
-        if(move===6 && pos[6]==="empty"){
+        else if(move===6 && pos[6]==="empty"){
             o6.draw();
             pos[6]="filledO";
             hasMoved = true;
@@ -701,7 +716,7 @@ var AI = function(difficulty){
         else if(move===6 && pos[6]!=="empty"){
             move = round(random(0.5,9.49999));
         }
-        if(move===7 && pos[7]==="empty"){
+        else if(move===7 && pos[7]==="empty"){
             o7.draw();
             pos[7]="filledO";
             hasMoved = true;
@@ -709,7 +724,7 @@ var AI = function(difficulty){
         else if(move===7 && pos[7]!=="empty"){
             move = round(random(0.5,9.49999));
         }
-        if(move===8 && pos[8]==="empty"){
+        else if(move===8 && pos[8]==="empty"){
             o8.draw();
             pos[8]="filledO";
             hasMoved = true;
@@ -717,7 +732,7 @@ var AI = function(difficulty){
         else if(move===8 && pos[8]!=="empty"){
             move = round(random(0.5,9.49999));
         }
-        if(move===9 && pos[9]==="empty"){
+        else if(move===9 && pos[9]==="empty"){
             o9.draw();
             pos[9]="filledO";
             hasMoved = true;
@@ -725,10 +740,11 @@ var AI = function(difficulty){
         else if(move===9 && pos[9]!=="empty"){
             move = round(random(0.5,9.49999));
         }
-    }
-    myTurn = true;
+        else{
+            break;  
         }
-        myTurn=true;
+        }
+        }
     }
 };
 
@@ -946,13 +962,17 @@ else if(gameMode === 3) {
    strokeWeight(5);
    //println(myTurn);
    if(myTurn === true) {
-   for(var i = 1; i<=81; i++) {
-        ultimateXs[i].ultimateHMC(i, "x");
+   for(var i = 1; i<=9; i++) {
+       for(var n = 1; n<=9; n++){
+        ultimateXs[i].ultimateHMC(i, n, "x");
+       }
     }
    }
    else if(myTurn === false) {
-    for(var i = 1; i<=81; i++) {
-        ultimateOs[i].ultimateHMC(i, "o");
+    for(var i = 1; i<=9; i++) {
+        for(var n = 1; n<=9; n++) {
+        ultimateOs[i].ultimateHMC(i, n, "o");
+        }
     }
    }
 }
