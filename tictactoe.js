@@ -29,13 +29,17 @@ var ultimateCords = [["filler"]];
 //adds location dada to ultimateCords
 for(var w = 0; w < 3; w++) {
 for(var x = 0; x < 3; x++) {
-ultimatePos.push(["filler", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"]);
 for(var y = 0; y < 3; y++) {
 for(var z = 0; z < 3; z++) {
 ultimateCords.push([(58+z*39)+52+150*x,(109+y*39)+150*w]);
 }
 }
 }
+}
+
+
+for(var i = 0; i < 9; i++) {
+    ultimatePos.push(["filler", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"]);
 }
 
 var XO = function(config){
@@ -50,13 +54,13 @@ XO.prototype.isMouseInside = function(mode){
     if(mode === "normal"){
     return mouseX > (this.x-75) &&
            mouseX < (this.x +75) &&
-           mouseY > this.y-75 &&
+           mouseY > (this.y-75) &&
            mouseY < (this.y +75);
     }
     else if(mode === "ultimate"){
-        return mouseX > (this.x-20) &&
+    return mouseX > (this.x-20) &&
            mouseX < (this.x +20) &&
-           mouseY > this.y-20 &&
+           mouseY > (this.y-20) &&
            mouseY < (this.y +20);
     }
 };
@@ -68,24 +72,23 @@ XO.prototype.handleMouseClick = function() {
 };
 
 XO.prototype.ultimateHMC = function(i, n, XO) {
-    var empty;
-    
-    println(n);
+    var empty = false;
     
     if(ultimatePos[i][n] === "empty") {
         empty = true;
-    } 
+    }
     
     if (this.isMouseInside("ultimate") && empty === true && XO === "x") {
         this.draw();
-        ultimatePos[i] = "filledX";
+        ultimatePos[i][n] = "filledX";
     }
     
-    else if(this.isMouseInside("ultimate") && ultimatePos[i][n] === "empty" && XO === "o") {
+    else if(this.isMouseInside("ultimate") && empty === true && XO === "o") {
         this.draw();
-        ultimatePos[i] = "filledO";
+        ultimatePos[i][n] = "filledO";
     }
 };
+
 
 //parent class for all x's on gameboard
 var X = function(x, y, width, height){
@@ -960,18 +963,18 @@ else if(gameMode === 2) {
 else if(gameMode === 3) {
    btn4.handleMouseClick();
    strokeWeight(5);
-   //println(myTurn);
    if(myTurn === true) {
    for(var i = 1; i<=9; i++) {
        for(var n = 1; n<=9; n++){
-        ultimateXs[i].ultimateHMC(i, n, "x");
+        ultimateXs[n + (i-1)*9].ultimateHMC(i, n, "x");
        }
     }
    }
    else if(myTurn === false) {
     for(var i = 1; i<=9; i++) {
         for(var n = 1; n<=9; n++) {
-        ultimateOs[i].ultimateHMC(i, n, "o");
+            
+        ultimateOs[n + (i-1)*9].ultimateHMC(i, n, "o");
         }
     }
    }
@@ -1086,7 +1089,6 @@ var drawMenu = function(){
         }
    
 };
-
 draw = function() {
 drawMenu();
 };
