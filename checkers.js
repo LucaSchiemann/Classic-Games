@@ -137,9 +137,11 @@ draw = function() {
 };
 
 mouseClicked = function(){
+    //checks which tile is clicked
     for(var l = 0; l<board.length; l++){
         for(var i = 0; i<board[l].length; i++){
             if(mouseX<=board[l][i][1] + 75 && mouseX>=board[l][i][1] && mouseY<=board[l][i][2] + 75 && mouseY>=board[l][i][2] && board[l][i][5] === "light"){
+                //moves into empty spaces
                 if(board[l][i][0] === "_" && selected === true && selectedColor === "black" && board[l][i] === board[selectedColumn+1][selectedRow+1] && turn === "black"){
                     board[l][i][0] = "D";
                     board[selectedColumn][selectedRow][0] = "_";
@@ -176,6 +178,7 @@ mouseClicked = function(){
                     turn = "black";
                 }
                 
+                //takes checker
                 else if(board[l][i][0] === "L" && selected === true && selectedColor === "black" && board[l][i] === board[selectedColumn+1][selectedRow+1] && board[selectedColumn+2][selectedRow+2][0] === "_" && turn === "black"){
                     board[selectedColumn+2][selectedRow+2][0] = "D";
                     board[selectedColumn][selectedRow][0] = "_";
@@ -216,6 +219,7 @@ mouseClicked = function(){
                     turn = "black";
                 }
                 
+                //selects checker
                 else if(board[l][i][0] === "D"){
                     selected = true;
                     selectedColumn = l;
