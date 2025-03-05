@@ -412,6 +412,7 @@ var winScreen = function(pos1X, pos1Y, pos2X, pos2Y, altDraw){
 };
 
 var checkWin = function() {
+    if(gameMode === 1 || gameMode === 2){
 if(pos[1]==="filledX" && pos[2]==="filledX" && pos[3]==="filledX"){
     if(Draw===true){
     newX = 75;
@@ -576,6 +577,12 @@ else if(pos[3]==="filledO" && pos[5]==="filledO" && pos[7]==="filledO"){
 else{
     hasMoved = true;
     
+}
+}
+else if(gameMode === 3) {
+    for(var i = 1; i <= 9; i++){
+        
+    }
 }
 };
 
