@@ -413,12 +413,17 @@ var winScreen = function(pos1X, pos1Y, pos2X, pos2Y, altDraw){
 
 var ultimateWinScreen = function(pos1X, pos1Y, pos2X, pos2Y, player) {
     strokeWeight(10);
+        if(player === 'x') {
             line(pos1X, pos1Y, pos2X, pos2Y);
             line(pos2X, pos1Y, pos1X, pos2Y);
+        }
+        else if(player === 'o') {
+            noFill();
+            ellipse((pos1X+pos2X)/2, (pos1Y+pos2Y)/2, pos2X-pos1X, pos2X-pos1X);
+    }
 };
 
 var checkWin = function() {
-    if(gameMode === 1 || gameMode === 2){
 if(pos[1]==="filledX" && pos[2]==="filledX" && pos[3]==="filledX"){
     if(Draw===true){
     newX = 75;
@@ -584,17 +589,22 @@ else{
     hasMoved = true;
     
 }
-}
-else if(gameMode === 3) {
-    for(var i = 0; i < 9; i++){
+    for(var i = 0; i <= 9; i++){
+        var player = 'x'; 
+        
         if(ultimatePos[i][1]==="filledX" && ultimatePos[i][2]==="filledX" && ultimatePos[i][3]==="filledX"){
     if(Draw===true){
     newX = 75;
     newY = 150;
     Draw = false;
     }
-   
-    ultimateWinScreen(100, 100, 200, 200);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 else if(ultimatePos[i][4]==="filledX" && ultimatePos[i][5]==="filledX" && ultimatePos[i][6]==="filledX"){
@@ -603,8 +613,13 @@ else if(ultimatePos[i][4]==="filledX" && ultimatePos[i][5]==="filledX" && ultima
     newY = 300;
     Draw = false;
     }
-   
-    winScreen(75, 300, 525, 300);
+  if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 else if(ultimatePos[i][7]==="filledX" && ultimatePos[i][8]==="filledX" && ultimatePos[i][9]==="filledX"){
@@ -614,7 +629,13 @@ else if(ultimatePos[i][7]==="filledX" && ultimatePos[i][8]==="filledX" && ultima
     Draw = false;
     }
    
-    winScreen(75, 450, 525, 450);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 else if(ultimatePos[i][1]==="filledX" && ultimatePos[i][4]==="filledX" && ultimatePos[i][7]==="filledX"){
@@ -624,7 +645,13 @@ else if(ultimatePos[i][1]==="filledX" && ultimatePos[i][4]==="filledX" && ultima
     Draw = false;
     }
    
-    winScreen(150, 75, 150, 525);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 else if(ultimatePos[i][2]==="filledX" && ultimatePos[i][5]==="filledX" && ultimatePos[i][8]==="filledX"){
@@ -634,7 +661,13 @@ else if(ultimatePos[i][2]==="filledX" && ultimatePos[i][5]==="filledX" && ultima
     Draw = false;
     }
    
-    winScreen(300, 75, 300, 525);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 else if(ultimatePos[i][3]==="filledX" && ultimatePos[i][6]==="filledX" && ultimatePos[i][9]==="filledX"){
@@ -644,7 +677,13 @@ else if(ultimatePos[i][3]==="filledX" && ultimatePos[i][6]==="filledX" && ultima
     Draw = false;
     }
    
-    winScreen(450, 75, 450, 525);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 else if(ultimatePos[i][1]==="filledX" && ultimatePos[i][5]==="filledX" && ultimatePos[i][9]==="filledX"){
@@ -654,7 +693,13 @@ else if(ultimatePos[i][1]==="filledX" && ultimatePos[i][5]==="filledX" && ultima
     Draw = false;
     }
    
-    winScreen(75, 75, 525, 525);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 else if(ultimatePos[i][3]==="filledX" && ultimatePos[i][5]==="filledX" && ultimatePos[i][7]==="filledX"){
@@ -664,10 +709,17 @@ else if(ultimatePos[i][3]==="filledX" && ultimatePos[i][5]==="filledX" && ultima
     Draw = false;
     }
    
-    winScreen(75, 525, 525, 75, true);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 //for o winning
+player = 'o';
 
 if(ultimatePos[i][1]==="filledO" && ultimatePos[i][2]==="filledO" && ultimatePos[i][3]==="filledO"){
     if(Draw===true){
@@ -676,7 +728,13 @@ if(ultimatePos[i][1]==="filledO" && ultimatePos[i][2]==="filledO" && ultimatePos
     Draw = false;
     }
    
-    winScreen(75, 150, 525, 150);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 else if(ultimatePos[i][4]==="filledO" && ultimatePos[i][5]==="filledO" && ultimatePos[i][6]==="filledO"){
@@ -686,7 +744,13 @@ else if(ultimatePos[i][4]==="filledO" && ultimatePos[i][5]==="filledO" && ultima
     Draw = false;
     }
    
-    winScreen(75, 300, 525, 300);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 else if(ultimatePos[i][7]==="filledO" && ultimatePos[i][8]==="filledO" && ultimatePos[i][9]==="filledO"){
@@ -696,7 +760,13 @@ else if(ultimatePos[i][7]==="filledO" && ultimatePos[i][8]==="filledO" && ultima
     Draw = false;
     }
    
-    winScreen(75, 450, 525, 450);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 else if(ultimatePos[i][1]==="filledO" && ultimatePos[i][4]==="filledO" && ultimatePos[i][7]==="filledO"){
@@ -706,7 +776,14 @@ else if(ultimatePos[i][1]==="filledO" && ultimatePos[i][4]==="filledO" && ultima
     Draw = false;
     }
    
-    winScreen(150, 75, 150, 525);
+if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
+    
 }
 
 else if(ultimatePos[i][2]==="filledO" && ultimatePos[i][5]==="filledO" && ultimatePos[i][8]==="filledO"){
@@ -716,7 +793,13 @@ else if(ultimatePos[i][2]==="filledO" && ultimatePos[i][5]==="filledO" && ultima
     Draw = false;
     }
    
-    winScreen(300, 75, 300, 525);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 else if(ultimatePos[i][3]==="filledO" && ultimatePos[i][6]==="filledO" && ultimatePos[i][9]==="filledO"){
@@ -726,7 +809,13 @@ else if(ultimatePos[i][3]==="filledO" && ultimatePos[i][6]==="filledO" && ultima
     Draw = false;
     }
    
-    winScreen(450, 75, 450, 525);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 else if(ultimatePos[i][1]==="filledO" && ultimatePos[i][5]==="filledO" && ultimatePos[i][9]==="filledO"){
@@ -736,7 +825,13 @@ else if(ultimatePos[i][1]==="filledO" && ultimatePos[i][5]==="filledO" && ultima
     Draw = false;
     }
    
-    winScreen(75, 75, 525, 525);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 
 else if(ultimatePos[i][3]==="filledO" && ultimatePos[i][5]==="filledO" && ultimatePos[i][7]==="filledO"){
@@ -746,13 +841,18 @@ else if(ultimatePos[i][3]==="filledO" && ultimatePos[i][5]==="filledO" && ultima
     Draw = false;
     }
    
-    winScreen(75, 525, 525, 75, true);
+    if(i<=3) {
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+    }else if(i>3 && i<=6) {
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+    }else if(i>6 && i<=9) {
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+    }
 }
 else{
     hasMoved = true;
     
 }
-    }
 }
 };
 
@@ -1011,6 +1111,11 @@ var btn4 = new Button({
         modeOp=false;
         myTurn = true;
         gameOver=false;
+        
+        ultimatePos = [["filler"]];
+        for(var i = 0; i < 9; i++) {
+            ultimatePos.push(["filler", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"]);
+}
     }
 });
 
@@ -1267,6 +1372,23 @@ var drawMenu = function(){
         }
    
 };
+/*
+var x = -22;
+
+for(var i = 1; i <= 9; i++){
+    if(i<=3) {
+       ultimateWinScreen(x+100+(x+200*(i-1)), 100, x+200+(x+200*(i-1)), 200, 'x'); 
+       println('sigma');
+    }else if(3<i<=6) {
+        ultimateWinScreen(x+100(x+200*(i-4)), 100, x+200+(x+200*(i-4)), 200);
+        println('sigma');
+    }
+    else if(6<i<=9){
+        ultimateWinScreen(100+(200*(i-7)), 100, 200+(200*(i-7)), 200);
+    }
+}
+*/
+
 draw = function() {
-drawMenu();
+    drawMenu();
 };
