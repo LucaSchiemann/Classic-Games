@@ -12,9 +12,11 @@ var checkerSize = 62.5;
 //variables for rendering board
 var row = 0;
 var column = 0;
-var p = 0;
+var iterations = 0;
+var lightIterations = 0;
 var mode = 0;
 var Size = 200;
+var mouseSize = 50;
 var reset = true;
 var selected = null;
 var selectedColumn = null;
@@ -23,7 +25,7 @@ var selectedColor = null;
 var turn = "black";
 
 //gameboards
-var board = [[["D", 0, 0, 37.5, 37.5, "light"], ["_", 75, 0, null, null, "dark"], ["D", 150, 0, 187.5, 37.5, "light"], ["_", 225, 0, null, null, "dark"], ["D", 300, 0, 337.5, 37.5, "light"], ["_", 375, 0, null, null, "dark"], ["D", 450, 0, 487.5, 37.5, "light"], ["_", 525, 0, null, null, "dark"]], [["_", 0, 75, null, null, "dark"], ["D", 75, 75, 112.5, 112.5, "light"], ["_", 150, 75, null, null, "dark"], ["D", 225, 75, 262.5, 112.5, "light"], ["_", 300, 75, null, null, "dark"], ["D", 375, 75, 412.5, 112.5, "light"], ["_", 450, 75, null, null, "dark"], ["D", 525, 75, 562.5, 112.5, "light"]], [["D", 0, 150, 37.5, 187.5, "light"], ["_", 75, 150, null, null, "dark"], ["D", 150, 150, 187.5, 187.5, "light"], ["_", 225, 150, null, null, "dark"], ["D", 300, 150, 337.5, 187.5, "light"], ["_", 375, 150, null, null, "dark"], ["D", 450, 150, 487.5, 187.5, "light"], ["_", 525, 150, null, null, "dark"]], [["_", 0, 225, null, null, "dark"], ["_", 75, 225, 112.5, 262.5, "light"], ["_", 150, 225, null, null, "dark"], ["_", 225, 225, 262.5, 262.5, "light"], ["_", 300, 225, null, null, "dark"], ["_", 375, 225, 412.5, 262.5, "light"], ["_", 450, 225, null, null, "dark"], ["_", 525, 225, 562.5, 262.5, "light"]], [["_", 0, 300, 37.5, 337.5, "light"], ["_", 75, 300, null, null, "dark"], ["_", 150, 300, 187.5, 337.5, "light"], ["_", 225, 300, null, null, "dark"], ["_", 300, 300, 337.5, 337.5, "light"], ["_", 375, 300, 412.5, 337.5, "dark"], ["_", 450, 300, 487.5, 337.5, "light"], ["_", 525, 300, null, null, "dark"]], [["_", 0, 375, null, null, "dark"], ["L", 75, 375, 112.5, 412.5, "light"], ["_", 150, 375, null, null, "dark"], ["L", 225, 375, 262.5, 412.5, "light"], ["_", 300, 375, null, null, "dark"], ["L", 375, 375, 412.5, 412.5, "light"], ["_", 450, 375, null, null, "dark"], ["L", 525, 375, 562.5, 412.5, "light"]], [["L", 0, 450, 37.5, 487.5, "light"], ["_", 75, 450, null, null, "dark"], ["L", 150, 450, 187.5, 487.5, "light"], ["_", 225, 450, null, null, "dark"], ["L", 300, 450, 337.5, 487.5, "light"], ["_", 375, 450, null, null, "dark"], ["L", 450, 450, 487.5, 487.5, "light"], ["_", 525, 450, null, null, "dark"]], [["_", 0, 525, null, null, "dark"], ["L", 75, 525, 112.5, 562.5, "light"], ["_", 150, 525, null, null, "dark"], ["L", 225, 525, 262.5, 562.5, "light"], ["_", 300, 525, null, null, "dark"], ["L", 375, 525, 412.5, 562.5, "light"], ["_", 450, 525, null, null, "dark"], ["L", 525, 525, 562.5, 562.5, "light"]], ];
+var board = [[["D", 0, 0, 37.5, 37.5, "light"], ["_", 75, 0, null, null, "dark"], ["D", 150, 0, 187.5, 37.5, "light"], ["_", 225, 0, null, null, "dark"], ["D", 300, 0, 337.5, 37.5, "light"], ["_", 375, 0, null, null, "dark"], ["D", 450, 0, 487.5, 37.5, "light"], ["_", 525, 0, null, null, "dark"]], [["_", 0, 75, null, null, "dark"], ["D", 75, 75, 112.5, 112.5, "light"], ["_", 150, 75, null, null, "dark"], ["D", 225, 75, 262.5, 112.5, "light"], ["_", 300, 75, null, null, "dark"], ["D", 375, 75, 412.5, 112.5, "light"], ["_", 450, 75, null, null, "dark"], ["D", 525, 75, 562.5, 112.5, "light"]], [["D", 0, 150, 37.5, 187.5, "light"], ["_", 75, 150, null, null, "dark"], ["D", 150, 150, 187.5, 187.5, "light"], ["_", 225, 150, null, null, "dark"], ["D", 300, 150, 337.5, 187.5, "light"], ["_", 375, 150, null, null, "dark"], ["D", 450, 150, 487.5, 187.5, "light"], ["_", 525, 150, null, null, "dark"]], [["_", 0, 225, null, null, "dark"], ["_", 75, 225, 112.5, 262.5, "light"], ["_", 150, 225, null, null, "dark"], ["_", 225, 225, 262.5, 262.5, "light"], ["_", 300, 225, null, null, "dark"], ["_", 375, 225, 412.5, 262.5, "light"], ["_", 450, 225, null, null, "dark"], ["_", 525, 225, 562.5, 262.5, "light"]], [["_", 0, 300, 37.5, 337.5, "light"], ["_", 75, 300, null, null, "dark"], ["_", 150, 300, 187.5, 337.5, "light"], ["_", 225, 300, null, null, "dark"], ["_", 300, 300, 337.5, 337.5, "light"], ["_", 375, 300, 412.5, 337.5, "dark"], ["_", 450, 300, 487.5, 337.5, "light"], ["_", 525, 300, null, null, "dark"]], [["_", 0, 375, null, null, "dark"], ["L", 75, 375, 112.5, 412.5, "light"], ["_", 150, 375, null, null, "dark"], ["L", 225, 375, 262.5, 412.5, "light"], ["_", 300, 375, null, null, "dark"], ["L", 375, 375, 412.5, 412.5, "light"], ["_", 450, 375, null, null, "dark"], ["L", 525, 375, 562.5, 412.5, "light"]], [["L", 0, 450, 37.5, 487.5, "light"], ["_", 75, 450, null, null, "dark"], ["L", 150, 450, 187.5, 487.5, "light"], ["_", 225, 450, null, null, "dark"], ["L", 300, 450, 337.5, 487.5, "light"], ["_", 375, 450, null, null, "dark"], ["L", 450, 450, 487.5, 487.5, "light"], ["_", 525, 450, null, null, "dark"]], [["_", 0, 525, null, null, "dark"], ["L", 75, 525, 112.5, 562.5, "light"], ["_", 150, 525, null, null, "dark"], ["L", 225, 525, 262.5, 562.5, "light"], ["_", 300, 525, null, null, "dark"], ["L", 375, 525, 412.5, 562.5, "light"], ["_", 450, 525, null, null, "dark"], ["L", 525, 525, 562.5, 562.5, "light"]]];
 
 //checking to see what to render for the first time (onready function)
 /*while (row < 8){
@@ -163,33 +165,71 @@ var game = function(){
         column = 0;
         reset = true;
     }
+    
+    //menu exit
+    if(mode === 1 && key.code === 8 && keyIsPressed === true){
+        mode = 0;
+        row = 0;
+        column = 0;
+        reset = true;
+        selected = null;
+        selectedColumn = null;
+        selectedRow = null;
+        selectedColor = null;
+        turn = "black";
+        board = [[["D", 0, 0, 37.5, 37.5, "light"], ["_", 75, 0, null, null, "dark"], ["D", 150, 0, 187.5, 37.5, "light"], ["_", 225, 0, null, null, "dark"], ["D", 300, 0, 337.5, 37.5, "light"], ["_", 375, 0, null, null, "dark"], ["D", 450, 0, 487.5, 37.5, "light"], ["_", 525, 0, null, null, "dark"]], [["_", 0, 75, null, null, "dark"], ["D", 75, 75, 112.5, 112.5, "light"], ["_", 150, 75, null, null, "dark"], ["D", 225, 75, 262.5, 112.5, "light"], ["_", 300, 75, null, null, "dark"], ["D", 375, 75, 412.5, 112.5, "light"], ["_", 450, 75, null, null, "dark"], ["D", 525, 75, 562.5, 112.5, "light"]], [["D", 0, 150, 37.5, 187.5, "light"], ["_", 75, 150, null, null, "dark"], ["D", 150, 150, 187.5, 187.5, "light"], ["_", 225, 150, null, null, "dark"], ["D", 300, 150, 337.5, 187.5, "light"], ["_", 375, 150, null, null, "dark"], ["D", 450, 150, 487.5, 187.5, "light"], ["_", 525, 150, null, null, "dark"]], [["_", 0, 225, null, null, "dark"], ["_", 75, 225, 112.5, 262.5, "light"], ["_", 150, 225, null, null, "dark"], ["_", 225, 225, 262.5, 262.5, "light"], ["_", 300, 225, null, null, "dark"], ["_", 375, 225, 412.5, 262.5, "light"], ["_", 450, 225, null, null, "dark"], ["_", 525, 225, 562.5, 262.5, "light"]], [["_", 0, 300, 37.5, 337.5, "light"], ["_", 75, 300, null, null, "dark"], ["_", 150, 300, 187.5, 337.5, "light"], ["_", 225, 300, null, null, "dark"], ["_", 300, 300, 337.5, 337.5, "light"], ["_", 375, 300, 412.5, 337.5, "dark"], ["_", 450, 300, 487.5, 337.5, "light"], ["_", 525, 300, null, null, "dark"]], [["_", 0, 375, null, null, "dark"], ["L", 75, 375, 112.5, 412.5, "light"], ["_", 150, 375, null, null, "dark"], ["L", 225, 375, 262.5, 412.5, "light"], ["_", 300, 375, null, null, "dark"], ["L", 375, 375, 412.5, 412.5, "light"], ["_", 450, 375, null, null, "dark"], ["L", 525, 375, 562.5, 412.5, "light"]], [["L", 0, 450, 37.5, 487.5, "light"], ["_", 75, 450, null, null, "dark"], ["L", 150, 450, 187.5, 487.5, "light"], ["_", 225, 450, null, null, "dark"], ["L", 300, 450, 337.5, 487.5, "light"], ["_", 375, 450, null, null, "dark"], ["L", 450, 450, 487.5, 487.5, "light"], ["_", 525, 450, null, null, "dark"]], [["_", 0, 525, null, null, "dark"], ["L", 75, 525, 112.5, 562.5, "light"], ["_", 150, 525, null, null, "dark"], ["L", 225, 525, 262.5, 562.5, "light"], ["_", 300, 525, null, null, "dark"], ["L", 375, 525, 412.5, 562.5, "light"], ["_", 450, 525, null, null, "dark"], ["L", 525, 525, 562.5, 562.5, "light"]]];
+    }
+    fill(255, 246, 127);
+    textSize(10);
+    text("Backspace for menu!", 5, 10);
 };
 
 //menu
 var menu = function(){
     background(38, 0, 0);
+    
     //vignette effect
-    p = 0;
+    iterations = 0;
+    lightIterations = 0;
     Size = 750;
-    while(p<200){
+    mouseSize = 50;
+    while(iterations<200){
         noStroke();
-        fill(122, 0, 0, p);
+        fill(122, 0, 0, iterations);
         ellipse(300, 300, Size, Size);
         Size-=3;
-        p+=0.1;
+        iterations+=0.1;
     }
-    fill(0, 0, 0);
+    
+    //shadows
+    fill(0, 0, 0, 70);
+    textFont(createFont("Trebuchet MS Bold"));
+    textSize(70);
+    text("CHECKERS:", 115-((mouseX-300)/5), 175-((mouseY-200)/10));
+    textSize(50);
+    text("THE GAME", 175-((mouseX-300)/10), 240-((mouseY-200)/10));
+    
+    //title
+    fill(209, 209, 209);
     textFont(createFont("Trebuchet MS Bold"));
     textSize(75);
     text("CHECKERS:", 115, 175);
     textSize(55);
     text("THE GAME", 165, 230);
+    
+    //play button
+    stroke(0, 0, 0);
+    strokeWeight(5);
+    fill(64, 59, 64);
+    rect(200, 350, 200, 100, 3);
+    fill(0, 0, 0);
+    text("Play", 245, 415);
 };
 
 //running the app
 draw = function(){
     if (mode===0){
-       menu(); 
+        menu(); 
     }
     else if (mode===1){
         game();
@@ -197,157 +237,165 @@ draw = function(){
 };
 
 mouseClicked = function(){
-    //checks which tile is clicked
-    for(var l = 0; l<board.length; l++){
-        for(var i = 0; i<board[l].length; i++){
-            if(mouseX<=board[l][i][1] + 75 && mouseX>=board[l][i][1] && mouseY<=board[l][i][2] + 75 && mouseY>=board[l][i][2] && board[l][i][5] === "light"){
-                //moves into empty spaces
-                if(board[l][i][0] === "_" && selected === true && selectedColor === "black" && (board[l][i] === board[selectedColumn+1][selectedRow+1] || board[l][i] === board[selectedColumn+1][selectedRow-1]) && turn === "black"){
-                    board[l][i][0] = "D";
-                    board[selectedColumn][selectedRow][0] = "_";
-                    selected = false;
-                    selectedColumn = null;
-                    selectedRow = null;
-                    turn = "red";
-                }
-                
-                else if(board[l][i][0] === "_" && selected === true && selectedColor === "red" && (board[l][i] === board[selectedColumn-1][selectedRow+1] || board[l][i] === board[selectedColumn-1][selectedRow-1]) && turn === "red"){
-                    board[l][i][0] = "L";
-                    board[selectedColumn][selectedRow][0] = "_";
-                    selected = false;
-                    selectedColumn = null;
-                    selectedRow = null;
-                    turn = "black";
-                }
-                
-                //takes checker
-                else if(board[l][i][0] === "L" && selected === true && selectedColor === "black" && (board[l][i] === board[selectedColumn+1][selectedRow+1] || board[l][i] === board[selectedColumn+1][selectedRow-1]) && (board[selectedColumn+2][selectedRow+2][0] === "_" || board[selectedColumn+2][selectedRow-2][0] === "_") && turn === "black"){
-                    if(board[l][i] === board[selectedColumn+1][selectedRow+1] && board[selectedColumn+2][selectedRow+2][0] === "_"){
-                        board[selectedColumn+2][selectedRow+2][0] = "D";
-                        board[selectedColumn+1][selectedRow+1][0] = "_";
+    //button
+    if(mode === 0 && mouseX >= 200 && mouseX <= 400 && mouseY <= 450 && mouseY >= 350){
+        mode = 1;
+    }
+     
+    //game
+    else{
+        //checks which tile is clicked
+        for(var l = 0; l<board.length; l++){
+            for(var i = 0; i<board[l].length; i++){
+                if(mouseX<=board[l][i][1] + 75 && mouseX>=board[l][i][1] && mouseY<=board[l][i][2] + 75 && mouseY>=board[l][i][2] && board[l][i][5] === "light"){
+                    //moves into empty spaces
+                    if(board[l][i][0] === "_" && selected === true && selectedColor === "black" && (board[l][i] === board[selectedColumn+1][selectedRow+1] || board[l][i] === board[selectedColumn+1][selectedRow-1]) && turn === "black"){
+                        board[l][i][0] = "D";
                         board[selectedColumn][selectedRow][0] = "_";
-                        var newPosX = selectedColumn+2;
-                        var newPosY = selectedRow+2;
                         selected = false;
                         selectedColumn = null;
                         selectedRow = null;
                         turn = "red";
-                        while((board[newPosX+1][newPosY+1][0] === "L" && board[newPosX+2][newPosY+2][0] === "_") || (board[newPosX+1][newPosY-1][0] === "L" && board[newPosX+2][newPosY-2][0] === "_")){
-                            if(board[newPosX+1][newPosY+1][0] === "L" && board[newPosX+2][newPosY+2][0] === "_"){
-                                board[newPosX+1][newPosY+1][0] = "_";
-                                board[newPosX+2][newPosY+2][0] = "D";
-                                board[newPosX][newPosY][0] = "_";
-                                newPosX += 2;
-                                newPosY += 2;
-                            }
-                            else if(board[newPosX+1][newPosY-1][0] === "L" && board[newPosX+2][newPosY-2][0] === "_"){
-                                board[newPosX+1][newPosY-1][0] = "_";
-                                board[newPosX+2][newPosY-2][0] = "D";
-                                board[newPosX][newPosY][0] = "_";
-                                newPosX += 2;
-                                newPosY -= 2;
-                            }
-                        }
                     }
-                    else if(board[l][i] === board[selectedColumn+1][selectedRow-1] && board[selectedColumn+2][selectedRow-2][0] === "_"){
-                        board[selectedColumn+2][selectedRow-2][0] = "D";
-                        board[selectedColumn+1][selectedRow-1][0] = "_";
+                    
+                    else if(board[l][i][0] === "_" && selected === true && selectedColor === "red" && (board[l][i] === board[selectedColumn-1][selectedRow+1] || board[l][i] === board[selectedColumn-1][selectedRow-1]) && turn === "red"){
+                        board[l][i][0] = "L";
                         board[selectedColumn][selectedRow][0] = "_";
-                        var newPosX = selectedColumn+2;
-                        var newPosY = selectedRow-2;
-                        selected = false;
-                        selectedColumn = null;
-                        selectedRow = null;
-                        turn = "red";
-                        while((board[newPosX+1][newPosY+1][0] === "L" && board[newPosX+2][newPosY+2][0] === "_") || (board[newPosX+1][newPosY-1][0] === "L" && board[newPosX+2][newPosY-2][0] === "_")){
-                            if(board[newPosX+1][newPosY+1][0] === "L" && board[newPosX+2][newPosY+2][0] === "_"){
-                                board[newPosX+1][newPosY+1][0] = "_";
-                                board[newPosX+2][newPosY+2][0] = "D";
-                                board[newPosX][newPosY][0] = "_";
-                                newPosX += 2;
-                                newPosY += 2;
-                            }
-                            else if(board[newPosX+1][newPosY-1][0] === "L" && board[newPosX+2][newPosY-2][0] === "_"){
-                                board[newPosX+1][newPosY-1][0] = "_";
-                                board[newPosX+2][newPosY-2][0] = "D";
-                                board[newPosX][newPosY][0] = "_";
-                                newPosX += 2;
-                                newPosY -= 2;
-                            }
-                        }
-                    }
-                }
-                
-                else if(board[l][i][0] === "D" && selected === true && selectedColor === "red" && (board[l][i] === board[selectedColumn-1][selectedRow+1] || board[l][i] === board[selectedColumn-1][selectedRow-1]) && (board[selectedColumn-2][selectedRow+2][0] === "_" || board[selectedColumn-2][selectedRow-2][0] === "_") && turn === "red"){
-                    if(board[l][i] === board[selectedColumn-1][selectedRow+1] && board[selectedColumn-2][selectedRow+2][0] === "_"){
-                        board[selectedColumn-2][selectedRow+2][0] = "L";
-                        board[selectedColumn-1][selectedRow+1][0] = "_";
-                        board[selectedColumn][selectedRow][0] = "_";
-                        var newPosX = selectedColumn-2;
-                        var newPosY = selectedRow+2;
                         selected = false;
                         selectedColumn = null;
                         selectedRow = null;
                         turn = "black";
-                        while((board[newPosX-1][newPosY+1][0] === "D" && board[newPosX-2][newPosY+2][0] === "_") || (board[newPosX-1][newPosY-1][0] === "D" && board[newPosX-2][newPosY-2][0] === "_")){
-                            if(board[newPosX-1][newPosY+1][0] === "D" && board[newPosX-2][newPosY+2][0] === "_"){
-                                board[newPosX-1][newPosY+1][0] = "_";
-                                board[newPosX-2][newPosY+2][0] = "L";
-                                board[newPosX][newPosY][0] = "_";
-                                newPosX -= 2;
-                                newPosY += 2;
+                    }
+                    
+                    //takes checker
+                    else if(board[l][i][0] === "L" && selected === true && selectedColor === "black" && (board[l][i] === board[selectedColumn+1][selectedRow+1] || board[l][i] === board[selectedColumn+1][selectedRow-1]) && (board[selectedColumn+2][selectedRow+2][0] === "_" || board[selectedColumn+2][selectedRow-2][0] === "_") && turn === "black"){
+                        if(board[l][i] === board[selectedColumn+1][selectedRow+1] && board[selectedColumn+2][selectedRow+2][0] === "_"){
+                            board[selectedColumn+2][selectedRow+2][0] = "D";
+                            board[selectedColumn+1][selectedRow+1][0] = "_";
+                            board[selectedColumn][selectedRow][0] = "_";
+                            var newPosX = selectedColumn+2;
+                            var newPosY = selectedRow+2;
+                            selected = false;
+                            selectedColumn = null;
+                            selectedRow = null;
+                            turn = "red";
+                            while((board[newPosX+1][newPosY+1][0] === "L" && board[newPosX+2][newPosY+2][0] === "_") || (board[newPosX+1][newPosY-1][0] === "L" && board[newPosX+2][newPosY-2][0] === "_")){
+                                if(board[newPosX+1][newPosY+1][0] === "L" && board[newPosX+2][newPosY+2][0] === "_"){
+                                    board[newPosX+1][newPosY+1][0] = "_";
+                                    board[newPosX+2][newPosY+2][0] = "D";
+                                    board[newPosX][newPosY][0] = "_";
+                                    newPosX += 2;
+                                    newPosY += 2;
+                                }
+                                else if(board[newPosX+1][newPosY-1][0] === "L" && board[newPosX+2][newPosY-2][0] === "_"){
+                                    board[newPosX+1][newPosY-1][0] = "_";
+                                    board[newPosX+2][newPosY-2][0] = "D";
+                                    board[newPosX][newPosY][0] = "_";
+                                    newPosX += 2;
+                                    newPosY -= 2;
+                                }
                             }
-                            else if(board[newPosX-1][newPosY-1][0] === "D" && board[newPosX-2][newPosY-2][0] === "_"){
-                                board[newPosX-1][newPosY-1][0] = "_";
-                                board[newPosX-2][newPosY-2][0] = "L";
-                                board[newPosX][newPosY][0] = "_";
-                                newPosX -= 2;
-                                newPosY -= 2;
+                        }
+                        else if(board[l][i] === board[selectedColumn+1][selectedRow-1] && board[selectedColumn+2][selectedRow-2][0] === "_"){
+                            board[selectedColumn+2][selectedRow-2][0] = "D";
+                            board[selectedColumn+1][selectedRow-1][0] = "_";
+                            board[selectedColumn][selectedRow][0] = "_";
+                            var newPosX = selectedColumn+2;
+                            var newPosY = selectedRow-2;
+                            selected = false;
+                            selectedColumn = null;
+                            selectedRow = null;
+                            turn = "red";
+                            while((board[newPosX+1][newPosY+1][0] === "L" && board[newPosX+2][newPosY+2][0] === "_") || (board[newPosX+1][newPosY-1][0] === "L" && board[newPosX+2][newPosY-2][0] === "_")){
+                                if(board[newPosX+1][newPosY+1][0] === "L" && board[newPosX+2][newPosY+2][0] === "_"){
+                                    board[newPosX+1][newPosY+1][0] = "_";
+                                    board[newPosX+2][newPosY+2][0] = "D";
+                                    board[newPosX][newPosY][0] = "_";
+                                    newPosX += 2;
+                                    newPosY += 2;
+                                }
+                                else if(board[newPosX+1][newPosY-1][0] === "L" && board[newPosX+2][newPosY-2][0] === "_"){
+                                    board[newPosX+1][newPosY-1][0] = "_";
+                                    board[newPosX+2][newPosY-2][0] = "D";
+                                    board[newPosX][newPosY][0] = "_";
+                                    newPosX += 2;
+                                    newPosY -= 2;
+                                }
                             }
                         }
                     }
-                   else if(board[l][i] === board[selectedColumn-1][selectedRow-1] && board[selectedColumn-2][selectedRow-2][0] === "_"){
-                        board[selectedColumn-2][selectedRow-2][0] = "L";
-                        board[selectedColumn-1][selectedRow-1][0] = "_";
-                        board[selectedColumn][selectedRow][0] = "_";
-                        var newPosX = selectedColumn-2;
-                        var newPosY = selectedRow-2;
-                        selected = false;
-                        selectedColumn = null;
-                        selectedRow = null;
-                        turn = "black";
-                        while((board[newPosX-1][newPosY+1][0] === "D" && board[newPosX-2][newPosY+2][0] === "_") || (board[newPosX-1][newPosY-1][0] === "D" && board[newPosX-2][newPosY-2][0] === "_")){
-                            if(board[newPosX-1][newPosY+1][0] === "D" && board[newPosX-2][newPosY+2][0] === "_"){
-                                board[newPosX-1][newPosY+1][0] = "_";
-                                board[newPosX-2][newPosY+2][0] = "L";
-                                board[newPosX][newPosY][0] = "_";
-                                newPosX -= 2;
-                                newPosY += 2;
+                    
+                    else if(board[l][i][0] === "D" && selected === true && selectedColor === "red" && (board[l][i] === board[selectedColumn-1][selectedRow+1] || board[l][i] === board[selectedColumn-1][selectedRow-1]) && (board[selectedColumn-2][selectedRow+2][0] === "_" || board[selectedColumn-2][selectedRow-2][0] === "_") && turn === "red"){
+                        if(board[l][i] === board[selectedColumn-1][selectedRow+1] && board[selectedColumn-2][selectedRow+2][0] === "_"){
+                            board[selectedColumn-2][selectedRow+2][0] = "L";
+                            board[selectedColumn-1][selectedRow+1][0] = "_";
+                            board[selectedColumn][selectedRow][0] = "_";
+                            var newPosX = selectedColumn-2;
+                            var newPosY = selectedRow+2;
+                            selected = false;
+                            selectedColumn = null;
+                            selectedRow = null;
+                            turn = "black";
+                            while((board[newPosX-1][newPosY+1][0] === "D" && board[newPosX-2][newPosY+2][0] === "_") || (board[newPosX-1][newPosY-1][0] === "D" && board[newPosX-2][newPosY-2][0] === "_")){
+                                if(board[newPosX-1][newPosY+1][0] === "D" && board[newPosX-2][newPosY+2][0] === "_"){
+                                    board[newPosX-1][newPosY+1][0] = "_";
+                                    board[newPosX-2][newPosY+2][0] = "L";
+                                    board[newPosX][newPosY][0] = "_";
+                                    newPosX -= 2;
+                                    newPosY += 2;
+                                }
+                                else if(board[newPosX-1][newPosY-1][0] === "D" && board[newPosX-2][newPosY-2][0] === "_"){
+                                    board[newPosX-1][newPosY-1][0] = "_";
+                                    board[newPosX-2][newPosY-2][0] = "L";
+                                    board[newPosX][newPosY][0] = "_";
+                                    newPosX -= 2;
+                                    newPosY -= 2;
+                                }
                             }
-                            else if(board[newPosX-1][newPosY-1][0] === "D" && board[newPosX-2][newPosY-2][0] === "_"){
-                                board[newPosX-1][newPosY-1][0] = "_";
-                                board[newPosX-2][newPosY-2][0] = "L";
-                                board[newPosX][newPosY][0] = "_";
-                                newPosX -= 2;
-                                newPosY -= 2;
+                        }
+                       else if(board[l][i] === board[selectedColumn-1][selectedRow-1] && board[selectedColumn-2][selectedRow-2][0] === "_"){
+                            board[selectedColumn-2][selectedRow-2][0] = "L";
+                            board[selectedColumn-1][selectedRow-1][0] = "_";
+                            board[selectedColumn][selectedRow][0] = "_";
+                            var newPosX = selectedColumn-2;
+                            var newPosY = selectedRow-2;
+                            selected = false;
+                            selectedColumn = null;
+                            selectedRow = null;
+                            turn = "black";
+                            while((board[newPosX-1][newPosY+1][0] === "D" && board[newPosX-2][newPosY+2][0] === "_") || (board[newPosX-1][newPosY-1][0] === "D" && board[newPosX-2][newPosY-2][0] === "_")){
+                                if(board[newPosX-1][newPosY+1][0] === "D" && board[newPosX-2][newPosY+2][0] === "_"){
+                                    board[newPosX-1][newPosY+1][0] = "_";
+                                    board[newPosX-2][newPosY+2][0] = "L";
+                                    board[newPosX][newPosY][0] = "_";
+                                    newPosX -= 2;
+                                    newPosY += 2;
+                                }
+                                else if(board[newPosX-1][newPosY-1][0] === "D" && board[newPosX-2][newPosY-2][0] === "_"){
+                                    board[newPosX-1][newPosY-1][0] = "_";
+                                    board[newPosX-2][newPosY-2][0] = "L";
+                                    board[newPosX][newPosY][0] = "_";
+                                    newPosX -= 2;
+                                    newPosY -= 2;
+                                }
                             }
                         }
                     }
-                }
-                
-                //selects checker
-                else if(board[l][i][0] === "D" && turn === "black"){
-                    selected = true;
-                    selectedColumn = l;
-                    selectedRow = i;
-                    selectedColor = "black";
-                }
-                
-                else if(board[l][i][0] === "L" && turn === "red"){
-                    selected = true;
-                    selectedColumn = l;
-                    selectedRow = i;
-                    selectedColor = "red";
+                    
+                    //selects checker
+                    else if(board[l][i][0] === "D" && turn === "black"){
+                        selected = true;
+                        selectedColumn = l;
+                        selectedRow = i;
+                        selectedColor = "black";
+                    }
+                    
+                    else if(board[l][i][0] === "L" && turn === "red"){
+                        selected = true;
+                        selectedColumn = l;
+                        selectedRow = i;
+                        selectedColor = "red";
+                    }
                 }
             }
         }
