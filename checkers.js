@@ -25,6 +25,10 @@ var selectedColor = null;
 var selectedRank = null;
 var turn = "black";
 
+//variables for rules
+var arrowPos = 70;
+var rateSpread = 2;
+
 //gameboards
 var board = [[["D", 0, 0, 37.5, 37.5, "light"], ["_", 75, 0, null, null, "dark"], ["D", 150, 0, 187.5, 37.5, "light"], ["_", 225, 0, null, null, "dark"], ["D", 300, 0, 337.5, 37.5, "light"], ["_", 375, 0, null, null, "dark"], ["D", 450, 0, 487.5, 37.5, "light"], ["_", 525, 0, null, null, "dark"]], [["_", 0, 75, null, null, "dark"], ["D", 75, 75, 112.5, 112.5, "light"], ["_", 150, 75, null, null, "dark"], ["D", 225, 75, 262.5, 112.5, "light"], ["_", 300, 75, null, null, "dark"], ["D", 375, 75, 412.5, 112.5, "light"], ["_", 450, 75, null, null, "dark"], ["D", 525, 75, 562.5, 112.5, "light"]], [["D", 0, 150, 37.5, 187.5, "light"], ["_", 75, 150, null, null, "dark"], ["D", 150, 150, 187.5, 187.5, "light"], ["_", 225, 150, null, null, "dark"], ["D", 300, 150, 337.5, 187.5, "light"], ["_", 375, 150, null, null, "dark"], ["D", 450, 150, 487.5, 187.5, "light"], ["_", 525, 150, null, null, "dark"]], [["_", 0, 225, null, null, "dark"], ["_", 75, 225, 112.5, 262.5, "light"], ["_", 150, 225, null, null, "dark"], ["_", 225, 225, 262.5, 262.5, "light"], ["_", 300, 225, null, null, "dark"], ["_", 375, 225, 412.5, 262.5, "light"], ["_", 450, 225, null, null, "dark"], ["_", 525, 225, 562.5, 262.5, "light"]], [["_", 0, 300, 37.5, 337.5, "light"], ["_", 75, 300, null, null, "dark"], ["_", 150, 300, 187.5, 337.5, "light"], ["_", 225, 300, null, null, "dark"], ["_", 300, 300, 337.5, 337.5, "light"], ["_", 375, 300, 412.5, 337.5, "dark"], ["_", 450, 300, 487.5, 337.5, "light"], ["_", 525, 300, null, null, "dark"]], [["_", 0, 375, null, null, "dark"], ["L", 75, 375, 112.5, 412.5, "light"], ["_", 150, 375, null, null, "dark"], ["L", 225, 375, 262.5, 412.5, "light"], ["_", 300, 375, null, null, "dark"], ["L", 375, 375, 412.5, 412.5, "light"], ["_", 450, 375, null, null, "dark"], ["L", 525, 375, 562.5, 412.5, "light"]], [["L", 0, 450, 37.5, 487.5, "light"], ["_", 75, 450, null, null, "dark"], ["L", 150, 450, 187.5, 487.5, "light"], ["_", 225, 450, null, null, "dark"], ["L", 300, 450, 337.5, 487.5, "light"], ["_", 375, 450, null, null, "dark"], ["L", 450, 450, 487.5, 487.5, "light"], ["_", 525, 450, null, null, "dark"]], [["_", 0, 525, null, null, "dark"], ["L", 75, 525, 112.5, 562.5, "light"], ["_", 150, 525, null, null, "dark"], ["L", 225, 525, 262.5, 562.5, "light"], ["_", 300, 525, null, null, "dark"], ["L", 375, 525, 412.5, 562.5, "light"], ["_", 450, 525, null, null, "dark"], ["L", 525, 525, 562.5, 562.5, "light"]]];
 
@@ -155,10 +159,6 @@ var game = function(){
             }
         }
     }
-    
-    fill(255, 246, 127);
-    textSize(10);
-    text("Backspace for menu!", 5, 10);
 };
 
 //menu
@@ -229,7 +229,180 @@ var rules = function(){
         iterations+=0.1;
     }
     
+    //panels
+    fill(255, 255, 255, 75);
+    strokeWeight(10);
+    stroke(0, 0, 0);
+    for(var runs = 0; runs<3; runs+=1){
+        for(var runs2 = 0; runs2<2; runs2+=1){
+            fill(255, 255, 255, 75);
+            strokeWeight(10);
+            stroke(0, 0, 0);
+            rect(25+(runs*200), 25+(runs2*275), 150, 150, 20);
+            //top left
+            if (runs === 0 && runs2 === 0){
+                //checker
+                noStroke();
+                fill(color5);
+                ellipse(70, 70, checkerSize, checkerSize);
+                noFill();
+                strokeWeight(4);
+                stroke(color6);
+                ellipse(70, 70, checkerSize/1.2,checkerSize/1.2);
+                
+                //arrow
+                stroke(255, 255, 255);
+                strokeWeight(10);
+                line(70, 70, arrowPos, arrowPos);
+                noStroke();
+                fill(255, 255, 255);
+                triangle(arrowPos + 10, arrowPos - 10, arrowPos - 10, arrowPos + 10, arrowPos + 10, arrowPos + 10);
+                
+                //rule
+                textSize(12.5);
+                textAlign(CENTER, TOP);
+                text("Click on any open space in front of and diagonal to a checker to move to it.", 15, 215, 175, 200);
+            }
+            //top center
+            else if (runs === 1 && runs2 === 0){
+                //checkers
+                noStroke();
+                fill(color5);
+                ellipse(270, 70, checkerSize, checkerSize);
+                noFill();
+                strokeWeight(4);
+                stroke(color6);
+                ellipse(270, 70, checkerSize/1.2,checkerSize/1.2);
+                noStroke();
+                fill(color1);
+                ellipse(330, 130, checkerSize, checkerSize);
+                noFill();
+                strokeWeight(4);
+                stroke(color4);
+                ellipse(330, 130, checkerSize/1.2,checkerSize/1.2);
+                
+                //arrow
+                stroke(255, 255, 255);
+                strokeWeight(10);
+                line(270, 70, arrowPos + 200, arrowPos);
+                noStroke();
+                fill(255, 255, 255);
+                triangle(arrowPos + 210, arrowPos - 10, arrowPos + 190, arrowPos + 10, arrowPos + 210, arrowPos + 10);
+                
+                //rule
+                textSize(12.5);
+                textAlign(CENTER, TOP);
+                text("Click on a diagonal checker with an open space behind it to jump it and proceed forward.", 215, 210, 175, 200);
+            }
+            //top right
+            else if (runs === 2 && runs2 === 0){
+                //checker
+                noStroke();
+                fill(color5);
+                ellipse(500, 100, checkerSize, checkerSize);
+                noFill();
+                strokeWeight(4);
+                stroke(color6);
+                ellipse(500, 100, checkerSize/1.2,checkerSize/1.2);
+                line(495, 90, 495, 110);
+                line(505, 90, 495, 100);
+                line(505, 110, 495, 100);
+                
+                //rule
+                fill(255, 255, 255);
+                textSize(12.5);
+                textAlign(CENTER, TOP);
+                text("Reach the opposite end of the board to king a checker (kings can move both forwards and backwards).", 415, 210, 175, 200);
+            }
+            //bottom left
+            else if (runs === 0 && runs2 === 1){
+                //trophy
+                stroke(214, 178, 0);
+                strokeWeight(5);
+                fill(255, 255, 255, 0);
+                ellipse(79, 358, 20, 20);
+                ellipse(121, 358, 20, 20);
+                noStroke();
+                fill(70, 25, 0);
+                rect(80, 402, 40, 20, 10);
+                stroke(214, 178, 0);
+                strokeWeight(10);
+                line(100, 355, 100, 400);
+                noStroke();
+                fill(255, 215, 0);
+                arc(100, 345, 50, 80, 0, 180);
+                stroke(240, 196, 0);
+                strokeWeight(5);
+                line(87, 355, 111, 355);
+                
+                //rule
+                fill(255, 255, 255);
+                textSize(12.5);
+                textAlign(CENTER, TOP);
+                text("The last player with checkers remaining wins!", 15, 490, 175, 200);
+            }
+            //bottom center
+            else if (runs === 1 && runs2 === 1){
+                //checker
+                noStroke();
+                fill(color1);
+                ellipse(300, 395, checkerSize, checkerSize);
+                noFill();
+                strokeWeight(4);
+                stroke(color4);
+                ellipse(300, 395, checkerSize/1.2,checkerSize/1.2);
+                
+                //1
+                fill(255, 255, 255);
+                textSize(150);
+                textAlign(CENTER, TOP);
+                text("1", 292.5, 285);
+                
+                //rule
+                fill(255, 255, 255);
+                textSize(12.5);
+                textAlign(CENTER, TOP);
+                text("Black moves first.", 215, 495, 175, 200);
+            }
+            //bottom right
+            else if (runs === 2 && runs2 === 1){
+                //exit sign
+                fill(0, 0, 0);
+                strokeWeight(7);
+                line(465, 330, 465, 420);
+                line(535, 330, 535, 420);
+                line(467, 329, 533, 329);
+                ellipse(505, 355, 12, 12);
+                line(504, 370, 490, 370);
+                line(490, 371, 483, 382);
+                line(505, 371, 515, 380);
+                line(515, 380, 525, 380);
+                line(510, 420, 499, 390);
+                line(494, 405, 495, 390);
+                line(480, 405, 493, 405);
+                strokeWeight(15);
+                line(503, 375, 499, 390);
+                
+                //rule
+                fill(255, 255, 255);
+                textSize(12.5);
+                textAlign(CENTER, TOP);
+                text("Press backspace to return to the menu.", 415, 490, 175, 200);
+            }
+        }
+    }
     
+    //moving arrow
+    if (arrowPos < 140){
+        arrowPos += rateSpread;
+        rateSpread = rateSpread / 1.025;
+    }
+    else if (arrowPos >= 140){
+        arrowPos = 70;
+        rateSpread = 2;
+    }
+    
+    textAlign(TOP, BASELINE);
 };
 
 //running the app
@@ -247,7 +420,7 @@ draw = function(){
 
 //menu exit
 keyTyped = function(){
-    if(mode === 1 && key.code === 8){
+    if(key.code === 8){
         mode = 0;
         row = 0;
         column = 0;
