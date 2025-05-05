@@ -1,4 +1,4 @@
-  //Setting up main game
+//Setting up main game
 
 var newX;
 var newY;
@@ -8,9 +8,11 @@ var canPlace = true;
 var Draw = true;
 var difOp = false;
 var modeOp = false;
+var tutorialOp = false;
 var nextMove = 0;
 var hasMoved;
 var AIdif;
+var currentBoard = 5;
 
 var pos = ["filler","empty","empty","empty","empty","empty","empty","empty","empty","empty"];
 
@@ -78,14 +80,16 @@ XO.prototype.ultimateHMC = function(i, n, XO) {
         empty = true;
     }
     
-    if (this.isMouseInside("ultimate") && empty === true && XO === "x") {
+    if (this.isMouseInside("ultimate") && empty === true && XO === "x" && i === currentBoard) {
         this.draw();
         ultimatePos[i][n] = "filledX";
+        currentBoard = n;
     }
     
-    else if(this.isMouseInside("ultimate") && empty === true && XO === "o") {
+    else if(this.isMouseInside("ultimate") && empty === true && XO === "o" && i === currentBoard) {
         this.draw();
         ultimatePos[i][n] = "filledO";
+        currentBoard = n;
     }
 };
 
@@ -368,6 +372,7 @@ var drawBoard = function(){
 
 //draws the ultimate gameboard
 var drawUltimateBoard = function(){
+    background(130, 36, 36);
     strokeWeight(10);
     line(75,220,525,220);
     line(75,380,525,380);
@@ -389,6 +394,8 @@ var drawUltimateBoard = function(){
             line(dec3+i*150,dec1+n*150,dec3+i*150,dec4+n*150);
         }
     }
+    
+    
 };
 
 var gameOver = false;
@@ -405,21 +412,28 @@ var winScreen = function(pos1X, pos1Y, pos2X, pos2Y, altDraw){
     else if(newY>pos2Y && altDraw === true){
     newY-=25;
     }
-   
+    if(gameMode !==3){
     line(pos1X,pos1Y,newX,newY);
+    }else if(gameMode === 3) {
+        line(pos1X, pos1Y, pos2X, pos2Y);
+    }
     canPlace = false;
     gameOver = true;
 };
 
-var ultimateWinScreen = function(pos1X, pos1Y, pos2X, pos2Y, player) {
+var ultimateWinScreen = function(pos1X, pos1Y, pos2X, pos2Y, player, posnum) {
     strokeWeight(10);
+    if(pos[posnum] === 'empty'){
         if(player === 'x') {
             line(pos1X, pos1Y, pos2X, pos2Y);
             line(pos2X, pos1Y, pos1X, pos2Y);
+            pos[posnum] = 'filledX';
         }
         else if(player === 'o') {
             noFill();
             ellipse((pos1X+pos2X)/2, (pos1Y+pos2Y)/2, pos2X-pos1X, pos2X-pos1X);
+            pos[posnum] =  'filledO';
+    }
     }
 };
 
@@ -431,7 +445,7 @@ if(pos[1]==="filledX" && pos[2]==="filledX" && pos[3]==="filledX"){
     Draw = false;
     }
    
-    winScreen(75, 150, 525, 150, "x");
+    winScreen(75, 150, 525, 150, 'x');
 }
 
 else if(pos[4]==="filledX" && pos[5]==="filledX" && pos[6]==="filledX"){
@@ -441,7 +455,7 @@ else if(pos[4]==="filledX" && pos[5]==="filledX" && pos[6]==="filledX"){
     Draw = false;
     }
    
-    winScreen(75, 300, 525, 300);
+    winScreen(75, 300, 525, 300, 'x');
 }
 
 else if(pos[7]==="filledX" && pos[8]==="filledX" && pos[9]==="filledX"){
@@ -589,7 +603,7 @@ else{
     hasMoved = true;
     
 }
-    for(var i = 0; i <= 9; i++){
+    for(var i = 1; i < 10; i++){
         var player = 'x'; 
         
         if(ultimatePos[i][1]==="filledX" && ultimatePos[i][2]==="filledX" && ultimatePos[i][3]==="filledX"){
@@ -599,11 +613,11 @@ else{
     Draw = false;
     }
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player,i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -614,11 +628,11 @@ else if(ultimatePos[i][4]==="filledX" && ultimatePos[i][5]==="filledX" && ultima
     Draw = false;
     }
   if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -630,11 +644,11 @@ else if(ultimatePos[i][7]==="filledX" && ultimatePos[i][8]==="filledX" && ultima
     }
    
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -646,11 +660,11 @@ else if(ultimatePos[i][1]==="filledX" && ultimatePos[i][4]==="filledX" && ultima
     }
    
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -662,11 +676,11 @@ else if(ultimatePos[i][2]==="filledX" && ultimatePos[i][5]==="filledX" && ultima
     }
    
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -678,11 +692,11 @@ else if(ultimatePos[i][3]==="filledX" && ultimatePos[i][6]==="filledX" && ultima
     }
    
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -694,11 +708,11 @@ else if(ultimatePos[i][1]==="filledX" && ultimatePos[i][5]==="filledX" && ultima
     }
    
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -710,11 +724,11 @@ else if(ultimatePos[i][3]==="filledX" && ultimatePos[i][5]==="filledX" && ultima
     }
    
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -729,11 +743,11 @@ if(ultimatePos[i][1]==="filledO" && ultimatePos[i][2]==="filledO" && ultimatePos
     }
    
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -745,11 +759,11 @@ else if(ultimatePos[i][4]==="filledO" && ultimatePos[i][5]==="filledO" && ultima
     }
    
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -761,11 +775,11 @@ else if(ultimatePos[i][7]==="filledO" && ultimatePos[i][8]==="filledO" && ultima
     }
    
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -777,11 +791,11 @@ else if(ultimatePos[i][1]==="filledO" && ultimatePos[i][4]==="filledO" && ultima
     }
    
 if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
     
 }
@@ -794,11 +808,11 @@ else if(ultimatePos[i][2]==="filledO" && ultimatePos[i][5]==="filledO" && ultima
     }
    
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -810,11 +824,11 @@ else if(ultimatePos[i][3]==="filledO" && ultimatePos[i][6]==="filledO" && ultima
     }
    
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -826,11 +840,11 @@ else if(ultimatePos[i][1]==="filledO" && ultimatePos[i][5]==="filledO" && ultima
     }
    
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 
@@ -842,11 +856,11 @@ else if(ultimatePos[i][3]==="filledO" && ultimatePos[i][5]==="filledO" && ultima
     }
    
     if(i<=3) {
-       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player); 
+       ultimateWinScreen(100+(150*(i-1)), 100, 200+(150*(i-1)), 200, player, i); 
     }else if(i>3 && i<=6) {
-        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player);
+        ultimateWinScreen(100+(150*(i-4)), 250, 200+(150*(i-4)), 350, player, i);
     }else if(i>6 && i<=9) {
-        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player);
+        ultimateWinScreen(100+(150*(i-7)), 400, 200+(150*(i-7)), 500, player, i);
     }
 }
 else{
@@ -862,11 +876,11 @@ var AI = function(difficulty){
     if(difficulty==="easy"){
         var move = round(random(0.5,9.49999));
         hasMoved = false;
-        while(hasMoved === "false") {
+        while(hasMoved === false) {
             if(pos[move] === "empty") {
                 os[move].draw();
                 pos[move] = "filledO";
-                hasMoved = "true";
+                hasMoved = true;
             }
             else {
                 move = round(random(0.5,9.499999));
@@ -1111,6 +1125,7 @@ var btn4 = new Button({
         modeOp=false;
         myTurn = true;
         gameOver=false;
+        currentBoard = 5;
         
         ultimatePos = [["filler"]];
         for(var i = 0; i < 9; i++) {
@@ -1190,12 +1205,22 @@ var btn8 = new Button({
     }
 });
 
+var btn9 = new Button({
+    x:300,
+    y:375,
+    label:"Tutorial",
+    onClick: function() {
+        gameMode = 4;
+    }
+});
+
 
 mouseClicked = function(){
 if(gameMode === 0){
     if(difOp === false && modeOp === false) {
         btn1.handleMouseClick();
         btn2.handleMouseClick();
+        btn9.handleMouseClick();
         
     }
     else if(difOp === true) {
@@ -1261,6 +1286,9 @@ else if(gameMode === 3) {
     }
    }
    checkWin();
+}
+else if(gameMode === 4) {
+    background(130,36,36);
 }
 };
 
@@ -1343,16 +1371,19 @@ var drawMenu = function(){
         if(difOp === false && modeOp === false){
             btn1.draw();
             btn2.draw();
+            btn9.draw();
         }
         else if(difOp === true){
             btn5.draw();
             btn6.draw();
             btn1.draw();
+            btn9.draw();
         }
         else if(modeOp === true){
             btn7.draw();
             btn8.draw();
             btn2.draw();
+            btn9.draw();
         }
         }
         else if(gameMode === 1){
@@ -1369,8 +1400,11 @@ var drawMenu = function(){
             strokeWeight(3);
             btn4.draw();
             strokeWeight(10);
+            noStroke();
+            fill(64, 64, 64);
+            stroke(0, 0, 0);
+            strokeWeight(10);
         }
-   
 };
 /*
 var x = -22;
@@ -1392,3 +1426,4 @@ for(var i = 1; i <= 9; i++){
 draw = function() {
     drawMenu();
 };
+
