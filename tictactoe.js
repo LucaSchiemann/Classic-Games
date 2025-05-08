@@ -870,6 +870,15 @@ else{
 }
 };
 
+//tutorial animaion
+
+var tutorial = function() {
+    background(130,36,36);
+    line(300,0,300,600);
+    textAlign(CENTER,CENTER);
+   // text('Normal',
+};
+
 //creating AI
 
 var AI = function(difficulty){
@@ -1211,6 +1220,7 @@ var btn9 = new Button({
     label:"Tutorial",
     onClick: function() {
         gameMode = 4;
+        tutorial();
     }
 });
 
@@ -1286,9 +1296,6 @@ else if(gameMode === 3) {
     }
    }
    checkWin();
-}
-else if(gameMode === 4) {
-    background(130,36,36);
 }
 };
 
@@ -1406,22 +1413,6 @@ var drawMenu = function(){
             strokeWeight(10);
         }
 };
-/*
-var x = -22;
-
-for(var i = 1; i <= 9; i++){
-    if(i<=3) {
-       ultimateWinScreen(x+100+(x+200*(i-1)), 100, x+200+(x+200*(i-1)), 200, 'x'); 
-       println('sigma');
-    }else if(3<i<=6) {
-        ultimateWinScreen(x+100(x+200*(i-4)), 100, x+200+(x+200*(i-4)), 200);
-        println('sigma');
-    }
-    else if(6<i<=9){
-        ultimateWinScreen(100+(200*(i-7)), 100, 200+(200*(i-7)), 200);
-    }
-}
-*/
 
 draw = function() {
     drawMenu();
